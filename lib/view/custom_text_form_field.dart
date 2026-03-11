@@ -1,3 +1,4 @@
+import 'package:card_swift/core/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,6 +93,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   void initState() {
     /// Initializes `_obscureText` based on the widget's `obscureText` property.
     _obscureText = widget.hasPasswordToggle ? true : widget.obscureText;
+
+    // If it's a multi-line field, we should never obscure text.
+    if (widget.maxLines > 1) {
+      _obscureText = false;
+    } else {
+      _obscureText = widget.hasPasswordToggle ? true : widget.obscureText;
+    }
+
     super.initState();
   }
 
@@ -122,7 +131,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
           /// Adds spacing between label and input field.
           // AppsFunction.verticalSpacing(8),
-          SizedBox(height: 10),
+          SizedBox(height: 10.h),
           TextFormField(
             onChanged: widget.onChanged,
             enabled: widget.enabled,
@@ -135,13 +144,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             keyboardType: widget.textInputType,
             autofillHints: widget.autofillHints,
             onFieldSubmitted: widget.onFieldSubmitted,
-            style:
-                widget.style ??
-                GoogleFonts.poppins(
-                  fontSize: 15.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800,
-                ),
+            style: widget.style ?? AppTextStyle.medium,
 
             /// Applies custom or default decoration
             decoration:
@@ -203,11 +206,7 @@ class CustomTextFieldDecoration {
             )
           : null,
       contentPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-      hintStyle: GoogleFonts.poppins(
-        fontSize: 14.sp,
-        color: Colors.grey,
-        fontWeight: FontWeight.w600,
-      ),
+      hintStyle: AppTextStyle.hint,
     );
   }
 }

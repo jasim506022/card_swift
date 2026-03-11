@@ -1,40 +1,40 @@
-
+import 'package:card_swift/core/app_colors.dart';
+import 'package:card_swift/core/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../core/app_text_style.dart';
+import '../../../core/app_text_style.dart';
 
 class HeadingWidget extends StatelessWidget {
-  const HeadingWidget({super.key, required this.image});
-
-  final String image;
+  const HeadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String image =
+        "https://img.freepik.com/premium-photo/corporate-portrait-proud-with-business-man-office-start-professional-career-as-intern-company-confident-suit-with-smile-formal-employee-workplace-administration_590464-381909.jpg?semt=ais_hybrid&w=740&q=80";
+
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(15.r),
       height: .25.sh,
-
       width: double.infinity,
-
-      decoration: BoxDecoration(color: Color(0xFF8BA18B)),
+      decoration: BoxDecoration(color: AppColors.authHeadBackground),
       child: Row(
         children: [
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                editableTextRow(title: "Md Jasim Uddin"),
+                editableTextRow(title: AppString.appProfileName),
                 Column(
                   children: [
                     editableTextRow(
-                      title: "Your Designation",
+                      title: AppString.appDesignation,
                       textStyle: AppTextStyle.medium.copyWith(
-                        color: Colors.yellow,
+                        color: AppColors.yellow,
                       ),
                     ),
                     editableTextRow(
-                      title: "Your Company",
+                      title: AppString.companyName,
                       textStyle: AppTextStyle.mediumNormal,
                     ),
                   ],
@@ -43,13 +43,23 @@ class HeadingWidget extends StatelessWidget {
             ),
           ),
 
-          buildImage(),
+          buildImage(image),
         ],
       ),
     );
   }
 
-  Container buildImage() {
+  Row editableTextRow({required String title, TextStyle? textStyle}) {
+    return Row(
+      children: [
+        Text(title, style: textStyle ?? AppTextStyle.title),
+        SizedBox(width: 8.w),
+        Icon(Icons.edit),
+      ],
+    );
+  }
+
+  Container buildImage(String image) {
     return Container(
       height: 140.h,
       width: 100.h,
@@ -65,35 +75,24 @@ class HeadingWidget extends StatelessWidget {
               height: 40.h,
               width: 100.h,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15.r),
-                  bottomRight: Radius.circular(15.r),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(15.r),
                 ),
-                color: Colors.black54, // semi-transparent overlay
+                color: AppColors.black.withValues(alpha: .5),
               ),
               child: Center(
                 child: Text(
-                  "Change.....",
+                  AppString.change,
                   textAlign: TextAlign.center,
-                  style: AppTextStyle.medium.copyWith(color: Colors.white70),
+                  style: AppTextStyle.medium.copyWith(
+                    color: AppColors.white.withValues(alpha: .7),
+                  ),
                 ),
               ),
             ),
           ),
-
-          // Text with black shadow
         ],
       ),
-    );
-  }
-
-  Row editableTextRow({required String title, TextStyle? textStyle}) {
-    return Row(
-      children: [
-        Text(title, style: textStyle ?? AppTextStyle.title),
-        SizedBox(width: 8.w),
-        Icon(Icons.edit),
-      ],
     );
   }
 }

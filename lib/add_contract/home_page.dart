@@ -3,7 +3,7 @@ import 'package:card_swift/add_contract/add_contact.dart';
 import 'package:card_swift/main.dart';
 import 'package:flutter/material.dart';
 
-import '../view/profile_view.dart';
+import '../view/profile/profile_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
