@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-import 'widget/app_button.dart';
+import '../../common/widget/app_button.dart';
 import '../../common/widget/custom_text_form_field.dart';
 import 'widget/custom_phone_number_field.dart';
 import 'widget/heading_widget.dart';

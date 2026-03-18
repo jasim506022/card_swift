@@ -6,7 +6,7 @@ import '../../../common/style/app_string.dart';
 import '../../../common/style/app_text_style.dart';
 import '../../../controller/onboarding_controller.dart';
 import '../../../model/onboarding_model.dart';
-import '../../profile/widget/app_button.dart';
+import '../../../common/widget/app_button.dart';
 import 'onboarding_progress_dots_widget.dart';
 
 class OnboardingWidget extends GetView<OnboardingController> {

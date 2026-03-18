@@ -1,3 +1,4 @@
+import 'package:card_swift/common/style/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class OnboardingProgressDotsWidget extends GetView<OnboardingController> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      // Understand Code This
       children: List.generate(
         3,
         (index) => Obx(() {
@@ -22,7 +24,7 @@ class OnboardingProgressDotsWidget extends GetView<OnboardingController> {
             width: isActive ? 16.h : 8.h,
             margin: EdgeInsets.symmetric(horizontal: 4.w),
             decoration: BoxDecoration(
-              color: isActive ? Colors.red : Colors.black,
+              color: isActive ? AppColors.red : AppColors.black,
               borderRadius: BorderRadius.circular(10.r),
             ),
           );

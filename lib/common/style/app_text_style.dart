@@ -19,14 +19,14 @@ class AppTextStyle {
 
   // Main page title
   static TextStyle title = GoogleFonts.poppins(
-    fontSize: 26.sp,
-    fontWeight: FontWeight.bold,
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w800,
     color: Colors.black,
   );
 
   // Secondary title / screen header
   static TextStyle subTitle = TextStyle(
-    fontSize: 24.sp,
+    fontSize: 20.sp,
     fontWeight: FontWeight.w600,
     color: Colors.black87,
   );

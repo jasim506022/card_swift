@@ -12,7 +12,7 @@ import '../../common/style/app_text_style.dart';
 import '../../common/widget/custom_app_bar.dart';
 import '../../controller/auth_controller.dart';
 import '../../common/widget/custom_text_form_field.dart';
-import '../profile/widget/app_button.dart';
+import '../../common/widget/app_button.dart';
 
 
 class SignUpPage extends StatefulWidget {
