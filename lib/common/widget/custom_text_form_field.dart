@@ -1,4 +1,4 @@
-import 'package:card_swift/core/app_text_style.dart';
+import 'package:card_swift/common/style/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';

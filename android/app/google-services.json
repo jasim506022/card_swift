@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774489257998",
+    "project_id": "card-swift",
+    "storage_bucket": "card-swift.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774489257998:android:ac9d9272a8c3f89d7a645f",
+        "android_client_info": {
+          "package_name": "com.example.card_swift"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj31_SOOIMnKzppSldEmPwHQDGKikdF74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

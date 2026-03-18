@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/app_colors.dart';
+import '../../../common/style/app_colors.dart';
 
 class InputFieldRow extends StatelessWidget {
   const InputFieldRow({super.key, required this.icon, required this.child});

@@ -1,12 +1,12 @@
-import 'package:card_swift/core/app_colors.dart';
-import 'package:card_swift/core/app_string.dart';
-import 'package:card_swift/core/app_text_style.dart';
+import 'package:card_swift/common/style/app_colors.dart';
+import 'package:card_swift/common/style/app_string.dart';
+import 'package:card_swift/common/style/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import 'widget/app_button.dart';
-import '../custom_text_form_field.dart';
+import '../../common/widget/custom_text_form_field.dart';
 import 'widget/custom_phone_number_field.dart';
 import 'widget/heading_widget.dart';
 import 'widget/input_field_row.dart';

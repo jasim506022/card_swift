@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-import '../../../core/app_string.dart';
-import '../../custom_text_form_field.dart';
+import '../../../common/style/app_string.dart';
+import '../../../common/widget/custom_text_form_field.dart';
 import '../profile_view.dart';
 
 class CustomPhoneNumberField extends StatelessWidget {

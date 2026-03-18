@@ -1,8 +1,8 @@
+import 'package:card_swift/common/style/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../view/custom_text_form_field.dart';
+import '../common/widget/custom_text_form_field.dart';
 
 class AddContact extends StatefulWidget {
   const AddContact({super.key});
@@ -17,69 +17,105 @@ class _AddContactState extends State<AddContact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(title: Text("Add Contact"), actions: [Text("Save")]),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(children: [Icon(Icons.percent), Text("Add Picture")]),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(15.r),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100
+                          , shape: BoxShape.circle
+                    ),
+                    child: Icon(Icons.person_outline, size: 50.h)),
+                Text("Add Picture", style: AppTextStyle.medium,),
+              ],
+            ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "First Name",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Last name",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Job Title",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Company Name",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Description",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Mobile Number",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Phone Number",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Email Address",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Fax",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "P.O. Box",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "Street Name",
               controller: textEditingController,
             ),
 
             CustomTextFormField(
-              hintText: "How are u",
+              hintText: "City ",
+              controller: textEditingController,
+            ),
+            CustomTextFormField(
+              hintText: "State ",
+              controller: textEditingController,
+            ),
+            CustomTextFormField(
+              hintText: "ZIP Code ",
+              controller: textEditingController,
+            ),
+            CustomTextFormField(
+              hintText: "Country ",
+              controller: textEditingController,
+            ),
+            CustomTextFormField(
+              hintText: "Whatsapp  ",
+              controller: textEditingController,
+            ),
+            CustomTextFormField(
+              hintText: "Website ",
+              controller: textEditingController,
+            ),
+            CustomTextFormField(
+              hintText: "Facebook ",
               controller: textEditingController,
             ),
           ],

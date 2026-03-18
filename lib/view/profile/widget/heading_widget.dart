@@ -1,8 +1,8 @@
-import 'package:card_swift/core/app_colors.dart';
-import 'package:card_swift/core/app_string.dart';
+import 'package:card_swift/common/style/app_colors.dart';
+import 'package:card_swift/common/style/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../core/app_text_style.dart';
+import '../../../common/style/app_text_style.dart';
 
 class HeadingWidget extends StatelessWidget {
   const HeadingWidget({super.key});
