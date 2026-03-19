@@ -1,19 +1,13 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../common/style/app_colors.dart';
 import '../../common/style/app_string.dart';
-import '../../common/style/app_text_style.dart';
-
-import '../../common/widget/custom_app_bar.dart';
+import '../../common/widget/app_clickable_text.dart';
 import '../../controller/auth_controller.dart';
 import '../../common/widget/custom_text_form_field.dart';
 import '../../common/widget/app_button.dart';
-
+import 'widget/auth_layout.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -48,53 +42,28 @@ Initialize once in initState().
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _disposeControllers();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(title: AppString.signUp),
-      backgroundColor: AppColors.white,
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // const AuthHeader(title: AppString.signUp,),
-            SizedBox(height: 20.h),
-            _buildForm(),
-            SizedBox(height: 20.h),
-            AppButton(
-              title: AppString.signUp,
-              onTap: _handleSignUp,
-              // onTapWhileLoading: () {
-              //   Get.snackbar(
-              //     "Please wait",
-              //     "Sign up is in progress...",
-              //     snackPosition: SnackPosition.BOTTOM,
-              //     backgroundColor: Colors.black87,
-              //     colorText: Colors.white,
-              //   );
-              // },
-              // isLoading: _authController.isLoading,
-              bgColor: Colors.black,
-              textColor: Colors.white,
-
-            ),
-
-            SizedBox(height: 40.h),
-
-            _buildLoginFooter(),
-            SizedBox(height: 20.h),
-          ],
+    return AuthLayout(
+      title: AppString.signUp,
+      children: [
+        _buildForm(),
+        SizedBox(height: 20.h),
+        AppButton(title: AppString.signUp, onTap: _handleSignUp, width: 1.sw),
+        SizedBox(height: 20.h),
+        Center(
+          child: AppClickableText(
+            // onTap: () => Get.back()
+            onTap: Get.back,
+            prefixText: AppString.alreadyHaveAccount,
+            linkText: AppString.signIn,
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -142,8 +111,6 @@ Initialize once in initState().
 
   /// Handle SignUp
   void _handleSignUp() {
-    print("Bangladesh");
-    // understand ths code
     if (!_formKey.currentState!.validate()) return;
 
     _authController.signUp(
@@ -153,35 +120,34 @@ Initialize once in initState().
     );
   }
 
-  /// Login footer
-  Widget _buildLoginFooter() {
-    return Center(
-      child: Text.rich(
-        TextSpan(
+  void _disposeControllers() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+  }
+}
+
+/*
+
+      Scaffold(
+      appBar: const CustomAppBar(title: AppString.signUp),
+      backgroundColor: AppColors.white,
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextSpan(
-              text: AppString.alreadyHaveAccount,
-              style: AppTextStyle.body,
-            ),
-            TextSpan(
-              text: AppString.signIn,
-              style: AppTextStyle.button.copyWith(
-                color: AppColors.blue,
-                decoration: TextDecoration.underline,
-              ),
-              // Understand ths Code
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  if (kDebugMode) {}
-                  Get.back();
-                },
-            ),
+            // const AuthHeader(title: AppString.signUp,),
+            SizedBox(height: 20.h),
+
           ],
         ),
       ),
     );
-  }
-}
+
+ */
 
 /*
 _emailController.text.trim()

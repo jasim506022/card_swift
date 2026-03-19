@@ -1,18 +1,18 @@
-import 'package:card_swift/route/route_name.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../common/style/app_assets.dart';
 import '../../common/style/app_colors.dart';
 import '../../common/style/app_string.dart';
 import '../../common/style/app_text_style.dart';
-import '../../common/widget/custom_app_bar.dart';
+import '../../common/widget/app_clickable_text.dart';
+import '../../common/widget/social_button.dart';
 import '../../controller/auth_controller.dart';
 import '../../common/widget/custom_text_form_field.dart';
 import '../../common/widget/app_button.dart';
+import '../../route/route_name.dart';
+import 'widget/auth_layout.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -23,9 +23,14 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  // Why use Late Here
   late final AuthController _authController;
+
+  // Why use this method
 
   @override
   void initState() {
@@ -42,93 +47,66 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: CustomAppBar(title: AppString.signIn, showBackButton: false),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // AuthHeader(title: AppString.signIn),
-            SizedBox(height: 20.h), _buildForm(),
-            SizedBox(height: 20.h),
-            AppButton(
-              title: AppString.signIn,
-              onTap: _handleSignUp,
-              bgColor: Colors.black,
-              textColor: Colors.white,
-              // onTapWhileLoading: () {
-              //   Get.snackbar(
-              //     "Please wait",
-              //     "Sign in is in progress...",
-              //     snackPosition: SnackPosition.BOTTOM,
-              //     backgroundColor: Colors.black87,
-              //     colorText: Colors.white,
-              //   );
-              // },
-              // isLoading: _authController.isLoading,
-            ),
-
-            // 4. Forgot Password
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () => Get.toNamed(RouteName.passwordPage),
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 13.sp,
-                  ),
-                ),
+    return AuthLayout(
+      title: AppString.signIn,
+      showBackButton: false,
+      children: [
+        _buildForm(),
+        SizedBox(height: 20.h),
+        AppButton(width: 1.sw, title: AppString.signIn, onTap: _handleSignIn),
+        SizedBox(height: 15.h),
+        // 4. Forgot Password
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () => Get.toNamed(RouteName.passwordPage),
+            child: Text(
+              AppString.forgetPassword,
+              style: AppTextStyle.inputHint.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.grey.withValues(alpha: .5),
               ),
             ),
-            SizedBox(height: 20.h),
+          ),
+        ),
+        SizedBox(height: 15.h),
 
-            // 5. Login Button
-            SizedBox(height: 30.h),
-
-            // 6. Social Login Section
-            Row(
-              children: [
-                const Expanded(child: Divider()),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Text(
-                    "Or Login with",
-                    style: TextStyle(color: Colors.grey, fontSize: 12.sp),
-                  ),
-                ),
-                const Expanded(child: Divider()),
-              ],
+        // 6. Social Login Section
+        Row(
+          children: [
+            const Expanded(child: Divider()),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Text(AppString.loginWith, style: AppTextStyle.inputLabel),
             ),
-            SizedBox(height: 24.h),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // Facebook
-                _socialButton(
-                  'https://cdn-icons-png.flaticon.com/512/2991/2991148.png',
-                  () {
-                    _authController.signInGoogle();
-                  },
-                ),
-                // Google
-                _socialButton(
-                  'https://cdn-icons-png.flaticon.com/512/0/747.png',
-                  () {},
-                ),
-                // Apple
-              ],
-            ),
-            SizedBox(height: 40.h),
-            _buildLoginFooter(),
+            const Expanded(child: Divider()),
           ],
         ),
-      ),
+        SizedBox(height: 24.h),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Facebook
+            SocialButton(
+              onTap: () => _authController.signInGoogle,
+              // _authController.signInGoogle(),
+              icon: AppAssets.googleIcon,
+            ),
+            // Google
+            SocialButton(onTap: () {}, icon: AppAssets.appleIcon),
+            // Apple
+          ],
+        ),
+        SizedBox(height: 40.h),
+        Center(
+          child: AppClickableText(
+            onTap: () => Get.toNamed(RouteName.signUpPage),
+            prefixText: AppString.doNotHaveAccount,
+            linkText: AppString.signUp,
+          ),
+        ),
+      ],
     );
   }
 
@@ -159,56 +137,35 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   /// Handle SignUp
-  Future<void> _handleSignUp() async {
+  Future<void> _handleSignIn() async {
     // understand ths code
     if (!_formKey.currentState!.validate()) return;
-
     await _authController.signIn(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
-  }
-
-  /// Login footer
-  Widget _buildLoginFooter() {
-    return Center(
-      child: Text.rich(
-        TextSpan(
-          children: [
-            TextSpan(
-              text: AppString.alreadyHaveAccount,
-              style: AppTextStyle.body,
-            ),
-            TextSpan(
-              text: AppString.signIn,
-              style: AppTextStyle.button.copyWith(
-                color: AppColors.blue,
-                decoration: TextDecoration.underline,
-              ),
-              // Understand ths Code
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  Get.toNamed(RouteName.signUpPage);
-                },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _socialButton(String iconUrl, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 56.h,
-        width: 90.w,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.r),
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: Center(child: Image.network(iconUrl, height: 24.h)),
-      ),
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
     );
   }
 }
+
+/*
+Scaffold(
+      backgroundColor: AppColors.white,
+      // Why use Const
+      appBar: const CustomAppBar(
+        title: AppString.signIn,
+        showBackButton: false,
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 25.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+      ),
+    );
+ */
+
+/*
+When we use Extract Method and Extract Widget
+ */

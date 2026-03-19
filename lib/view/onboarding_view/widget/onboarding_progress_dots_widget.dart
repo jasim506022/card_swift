@@ -14,7 +14,7 @@ class OnboardingProgressDotsWidget extends GetView<OnboardingController> {
       mainAxisAlignment: MainAxisAlignment.center,
       // Understand Code This
       children: List.generate(
-        3,
+        4,
         (index) => Obx(() {
           bool isActive = controller.currentIndex.value == index;
           return AnimatedContainer(

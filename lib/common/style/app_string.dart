@@ -24,6 +24,7 @@ class AppString {
   static const String skipBtn = "Skip";
   static const String finishBtn = "Finish";
   static const String nextBtn = "Next";
+  static const String sendResetEmailBtn = "Send Reset Email";
 
   static const String appProfileName = "Md Jasim Uddin";
   static const String appDesignation = "Your Designation";
@@ -41,13 +42,9 @@ class AppString {
   static const String addServicesYourOffer = "Add Services You Offer";
   static const String newCard = "New Card";
 
-
   static const String signIn = "Sign In";
   static const String signUp = "Sign Up";
   static const String subTitle = "Login to continue using the app";
-
-
-
 
   // Titles/Labels
   static const String nameLabel = "Name";
@@ -60,12 +57,14 @@ class AppString {
   static const String emailHint = "Enter your Email";
   static const String passwordHint = "Enter your Password";
   static const String confirmPasswordHint = "Enter your Confirm Password";
+
   // Footer Strings
   static const String alreadyHaveAccount = "Already have an account? ";
-
+  static const String doNotHaveAccount = "Don't have an account? ";
 
   // Other
-static const String loading = "Loading......";
-
-
+  static const String loading = "Loading";
+  static const String forgetPassword = "Forgot Password?";
+  static const String loginWith = "Or Login with";
+  static const String backTo = "Back to ";
 }

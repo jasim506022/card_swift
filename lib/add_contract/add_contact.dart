@@ -31,7 +31,7 @@ class _AddContactState extends State<AddContact> {
                           , shape: BoxShape.circle
                     ),
                     child: Icon(Icons.person_outline, size: 50.h)),
-                Text("Add Picture", style: AppTextStyle.medium,),
+                Text("Add Picture", style: AppTextStyle.bodyTitle,),
               ],
             ),
 

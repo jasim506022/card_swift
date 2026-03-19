@@ -8,9 +8,17 @@ import '../repository/auth_repository.dart';
 
 class AuthController extends GetxController {
   // Understand This Code
-  AuthRepository authRepository;
+  // AuthRepository authRepository;
+  //
+  // AuthController({required this.authRepository});
 
-  AuthController({required this.authRepository});
+  final AuthRepository _repository;
+
+
+
+  AuthController({required AuthRepository authRepository})
+      : _repository = authRepository;
+
 
   // Reactive loading variable
   final RxBool isLoading = false.obs;
@@ -19,7 +27,7 @@ class AuthController extends GetxController {
     try {
       print("Bangladesh");
       isLoading.value = true;
-      final user = await authRepository.signUp(email, password);
+      final user = await _repository.signUp(email, password);
 
       if (user != null) {
         var userModel = UserModel(
@@ -28,7 +36,7 @@ class AuthController extends GetxController {
           uid: user.uid,
           createdAt: Timestamp.now(),
         );
-        await authRepository.saveProfile(user: userModel, uid: user.uid);
+        await _repository.saveProfile(user: userModel, uid: user.uid);
         Get.snackbar("Successfully ", "Sign Up");
       }
     } catch (e) {
@@ -41,7 +49,7 @@ class AuthController extends GetxController {
   Future<void> signIn({required String email, required String password}) async {
     try {
       isLoading.value = true;
-      await authRepository.signIn(email: email, password: password);
+      await _repository.signIn(email: email, password: password);
       Get.snackbar("Successfully ", "Login");
     } catch (e) {
       Get.snackbar("Error", "Something went wrong");
@@ -51,7 +59,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInGoogle() async {
-    final user = await authRepository.signInGoogle();
+    final user = await _repository.signInGoogle();
     if (user != null) {
       var userModel = UserModel(
         name: user.displayName,
@@ -59,7 +67,7 @@ class AuthController extends GetxController {
         uid: user.uid,
         createdAt: Timestamp.now(),
       );
-      await authRepository.saveProfile(user: userModel, uid: user.uid);
+      await _repository.saveProfile(user: userModel, uid: user.uid);
       Get.snackbar("Successfully ", "Login");
     }
     ();
@@ -70,7 +78,7 @@ class AuthController extends GetxController {
 
     try {
       isLoading.value = true;
-      await authRepository.sendPasswordReset(email: email);
+      await _repository.sendPasswordReset(email: email);
       Get.snackbar(
         "Success",
         "Password reset email sent to $email",
@@ -96,7 +104,7 @@ class AuthController extends GetxController {
 
     try {
       isLoading.value = true;
-      await authRepository.signOut();
+      await _repository.signOut();
       Get.offAllNamed('/login'); // Redirect to login or splash
     } catch (e) {
       Get.snackbar('Error', 'Failed to sign out: $e');

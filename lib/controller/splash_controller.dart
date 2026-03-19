@@ -22,8 +22,6 @@ class SplashController extends GetxController {
     _configureUi();
   }
 
-  // Can i declare method on below of Super but Why
-
   @override
   void onReady() {
     // TODO: implement onReady
@@ -31,26 +29,16 @@ class SplashController extends GetxController {
     _navigateToNextPage();
   }
 
-  // is this method is future
   Future<void> _navigateToNextPage() async =>
       await Future.delayed(Duration(seconds: 2), () {
         final user = repository.currentUser();
         final targetRoute = _resolveRoute(user);
-        /*
-        String targetRoute = (user != null)
-            ? "Home Page"
-            : AppsConstant.isViewed
-            ? RouteName.signPage
-            : RouteName.onboarding;
 
-
-         */
         Get.offNamed(targetRoute);
       });
 
-  // Instead of this but why its best
   String _resolveRoute(User? user) {
-    if (user != null) return "RouteName.home";
+    if (user != null) return RouteName.homePage;
 
     if (AppsConstant.isViewed) {
       return RouteName.signPage;

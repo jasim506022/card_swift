@@ -26,10 +26,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       centerTitle: true,
+      // Why use ForegroundColor
       backgroundColor: AppColors.white,
       foregroundColor: AppColors.white,
       //title!
-      title: title != null ? Text(title!, style: AppTextStyle.title) : null,
+      title: title != null ? Text(title!, style: AppTextStyle.appBarTitle) : null,
       // leadingWidth: 56.w, fds
       leading: showBackButton ? _buildBackButton() : null,
       actions: actions,
@@ -55,8 +56,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           child: Icon(
             LucideIcons.chevron_left,
-            color: AppColors.blue,
-            size: 20.sp,
+            color: AppColors.black,
+            size: 20.h,
           ),
         ),
       ),

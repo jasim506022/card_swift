@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../add_contract/home.dart';
 import '../view/auth/forget_password_page.dart';
 import '../view/auth/sign_in_page.dart';
 import '../view/auth/sign_up_page.dart';
@@ -14,5 +15,6 @@ class AppPage {
     GetPage(name: RouteName.signPage, page: () => SignInPage()),
     GetPage(name: RouteName.signUpPage, page: () => SignUpPage()),
     GetPage(name: RouteName.passwordPage, page: () => ForgetPasswordPage()),
+    GetPage(name: RouteName.homePage, page: () => HomeViewPage()),
   ];
 }

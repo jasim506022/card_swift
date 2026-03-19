@@ -1,7 +1,6 @@
 import 'package:card_swift/common/style/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// A reusable custom text form field with label, validation,
 /// password toggle, and optional custom decoration.
@@ -120,14 +119,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         children: [
           /// Displays the label if provided.
           if (widget.label != null)
-            Text(
-              widget.label!,
-              style: GoogleFonts.poppins(
-                color: Colors.black,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            Text(widget.label!, style: AppTextStyle.bodyTitle),
 
           /// Adds spacing between label and input field.
           // AppsFunction.verticalSpacing(8),
@@ -144,7 +136,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             keyboardType: widget.textInputType,
             autofillHints: widget.autofillHints,
             onFieldSubmitted: widget.onFieldSubmitted,
-            style: widget.style ?? AppTextStyle.medium,
+            style: widget.style ?? AppTextStyle.inputLabel,
+            // Understand the meaning of ??
 
             /// Applies custom or default decoration
             decoration:
@@ -187,6 +180,7 @@ class CustomTextFieldDecoration {
     bool isEnable = true,
     VoidCallback? onPasswordToggle,
   }) {
+    // Understand the code
     return InputDecoration(
       fillColor: isEnable ? Colors.white : Colors.red,
       filled: true,
@@ -206,7 +200,7 @@ class CustomTextFieldDecoration {
             )
           : null,
       contentPadding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-      hintStyle: AppTextStyle.hint,
+      hintStyle: AppTextStyle.inputHint,
     );
   }
 }

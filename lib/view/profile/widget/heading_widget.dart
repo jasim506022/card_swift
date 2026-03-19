@@ -29,7 +29,7 @@ class HeadingWidget extends StatelessWidget {
                   children: [
                     editableTextRow(
                       title: AppString.appDesignation,
-                      textStyle: AppTextStyle.medium.copyWith(
+                      textStyle: AppTextStyle.bodyTitle.copyWith(
                         color: AppColors.yellow,
                       ),
                     ),
@@ -84,7 +84,7 @@ class HeadingWidget extends StatelessWidget {
                 child: Text(
                   AppString.change,
                   textAlign: TextAlign.center,
-                  style: AppTextStyle.medium.copyWith(
+                  style: AppTextStyle.inputLabel.copyWith(
                     color: AppColors.white.withValues(alpha: .7),
                   ),
                 ),

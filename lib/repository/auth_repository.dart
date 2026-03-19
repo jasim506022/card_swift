@@ -8,7 +8,12 @@ class AuthRepository {
 
   // Why not user _dataFirebase
 
-  final FirebaseAuthService _service = FirebaseAuthService();
+  // final FirebaseAuthService _service = FirebaseAuthService();
+
+  final FirebaseAuthService _service;
+  /// Dependency Injection (better for testing & flexibility)
+  AuthRepository({FirebaseAuthService? service})
+      : _service = service ?? FirebaseAuthService();
 
   // Why don't use await
   Future<User?> signUp(String email, String password) {

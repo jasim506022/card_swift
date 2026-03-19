@@ -7,26 +7,9 @@ import '../model/user_model.dart';
 
 /// Base contract for Firebase authentication services
 class FirebaseAuthService extends BaseFirebaseAuthService {
-  /*
-  final _firebaseAuth = FirebaseAuth.instance;
-  final _firebaseFirestore = FirebaseFirestore.instance;
-
-
-   */
-
-  // Why is best here ; Why no up
-
-  final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore;
-  final GoogleSignIn _googleSignIn;
-
-  FirebaseAuthService({
-    FirebaseAuth? auth,
-    FirebaseFirestore? firestore,
-    GoogleSignIn? googleSignIn,
-  }) : _auth = auth ?? FirebaseAuth.instance,
-       _firestore = firestore ?? FirebaseFirestore.instance,
-       _googleSignIn = googleSignIn ?? GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   User? currentUser() => _auth.currentUser;

@@ -1,3 +1,4 @@
+import 'package:card_swift/common/style/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,8 +8,8 @@ class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
     required this.title,
-    required this.bgColor,
-    required this.textColor,
+    this.bgColor,
+    this.textColor,
     this.onTap,
     this.borderColor,
     this.width,
@@ -16,8 +17,8 @@ class AppButton extends StatelessWidget {
   });
 
   final String title;
-  final Color bgColor;
-  final Color textColor;
+  final Color? bgColor;
+  final Color? textColor;
   final VoidCallback? onTap;
   final Color? borderColor;
 
@@ -33,18 +34,28 @@ class AppButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: width, // ✅ optional width
-        height: height, // ✅ optional height
+        width: width,
+        // ✅ optional width
+        height: height,
+        // ✅ optional height
         padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 30.w),
         decoration: BoxDecoration(
-          color: bgColor,
-          border: Border.all(color: borderColor ?? bgColor, width: 2.w),
+          color: bgColor ?? AppColors.black,
+          border: Border.all(
+            color: borderColor == null
+                ? (bgColor ?? Colors.black)
+                : borderColor!,
+            // why use !
+            width: 2.w,
+          ),
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Text(
           title,
           textAlign: TextAlign.center,
-          style: AppTextStyle.button.copyWith(color: textColor),
+          style: AppTextStyle.button.copyWith(
+            color: textColor ?? AppColors.white,
+          ),
         ),
       ),
     );
@@ -60,7 +71,6 @@ GestureDetector works in any container.
 
 If you want ripple, keep InkWell — but wrap in Material for proper behavior.
  */
-
 
 /*
 

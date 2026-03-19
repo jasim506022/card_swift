@@ -17,7 +17,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut<FirebaseAuthService>(() => FirebaseAuthService());
 
     Get.lazyPut<SplashRepository>(
-      () => SplashRepository(authService: Get.find()),
+      () => SplashRepository(),
     );
 
     Get.lazyPut<SplashController>(

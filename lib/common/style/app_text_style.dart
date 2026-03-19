@@ -39,6 +39,13 @@ class AppTextStyle {
   );
 
   // Paragraph / body text
+  static TextStyle bodyTitle = GoogleFonts.poppins(
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  );
+
+  // Paragraph / body text
   static TextStyle body = GoogleFonts.poppins(
     fontSize: 14.sp,
     fontWeight: FontWeight.normal,
@@ -67,16 +74,16 @@ class AppTextStyle {
   );
 
   // Input field hint text
-  static TextStyle inputHint = TextStyle(
-    fontSize: 16.sp,
-    fontWeight: FontWeight.normal,
+  static TextStyle inputHint = GoogleFonts.poppins(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
     color: Colors.grey[400],
   );
 
   // Input field label
-  static TextStyle inputLabel = TextStyle(
+  static TextStyle inputLabel = GoogleFonts.poppins(
     fontSize: 14.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     color: Colors.black87,
   );
 
@@ -119,11 +126,7 @@ class AppTextStyle {
 
    */
 
-  static TextStyle medium = GoogleFonts.poppins(
-    color: Colors.black,
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w700,
-  );
+
 
   static TextStyle mediumNormal = GoogleFonts.poppins(
     color: Colors.black,
@@ -135,11 +138,5 @@ class AppTextStyle {
     color: Colors.black,
     fontSize: 14.sp,
     fontWeight: FontWeight.w700,
-  );
-
-  static TextStyle hint = GoogleFonts.poppins(
-    fontSize: 14.sp,
-    color: Colors.grey,
-    fontWeight: FontWeight.w600,
   );
 }

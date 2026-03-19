@@ -183,7 +183,7 @@ class _HomeViewPageState extends State<HomeViewPage>
                                         children: [
                                           Text(
                                             "Md Jasim Uddin",
-                                            style: AppTextStyle.medium,
+                                            style: AppTextStyle.bodyTitle,
                                           ),
                                           SizedBox(height: 5.h),
                                           Text("Professor | Computer"),

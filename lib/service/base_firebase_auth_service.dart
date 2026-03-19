@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../model/user_model.dart';
 
 abstract class BaseFirebaseAuthService {
+  // Get Current Class
   User? currentUser();
 
   /// Sign in and return UID
