@@ -21,20 +21,26 @@ class OnboardingWidget extends GetView<OnboardingController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          // Top image
           SizedBox(
             height: 0.35.sh,
             width: 1.sw,
-            child: Image.asset(onboardingModel.image),
+            child: Image.asset(onboardingModel.image, fit: BoxFit.contain),
           ),
-
-          OnboardingProgressDotsWidget(),
-
+          // Progress indicator (dots)
+          const OnboardingProgressDotsWidget(),
+          // Title and description
           Column(
             children: [
-              Text(onboardingModel.title, style: AppTextStyle.title),
+              Text(
+                onboardingModel.title,
+                style: AppTextStyle.title,
+                textAlign: TextAlign.center,
+              ),
               SizedBox(height: 15.h),
               Text(
                 onboardingModel.description,
+                textAlign: TextAlign.center,
                 style: AppTextStyle.body.copyWith(height: 1.5),
               ),
             ],
@@ -46,8 +52,6 @@ class OnboardingWidget extends GetView<OnboardingController> {
                   ? AppString.finishBtn
                   : AppString.nextBtn,
               onTap: () => controller.goToNextPageOrSkip(),
-              bgColor: Colors.black,
-              textColor: Colors.white,
             );
           }),
         ],

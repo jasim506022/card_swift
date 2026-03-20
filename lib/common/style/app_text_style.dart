@@ -1,3 +1,4 @@
+import 'package:card_swift/common/style/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +15,7 @@ class AppTextStyle {
   static TextStyle appBarTitle = GoogleFonts.poppins(
     fontSize: 18.sp,
     fontWeight: FontWeight.w700,
-    color: Colors.black, // or white depending on theme
+    color: AppColors.black,
   );
 
   // Main page title
@@ -70,7 +71,6 @@ class AppTextStyle {
   static TextStyle button = GoogleFonts.poppins(
     fontSize: 16.sp,
     fontWeight: FontWeight.w800,
-    color: Colors.white,
   );
 
   // Input field hint text
@@ -125,8 +125,6 @@ class AppTextStyle {
 
 
    */
-
-
 
   static TextStyle mediumNormal = GoogleFonts.poppins(
     color: Colors.black,

@@ -1,7 +1,7 @@
-import 'package:card_swift/common/style/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../style/app_colors.dart';
 import '../style/app_text_style.dart';
 
 class AppButton extends StatelessWidget {
@@ -10,7 +10,7 @@ class AppButton extends StatelessWidget {
     required this.title,
     this.bgColor,
     this.textColor,
-    this.onTap,
+    required this.onTap,
     this.borderColor,
     this.width,
     this.height,
@@ -19,60 +19,45 @@ class AppButton extends StatelessWidget {
   final String title;
   final Color? bgColor;
   final Color? textColor;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
   final Color? borderColor;
 
-  /// Optional custom width and height
   final double? width;
   final double? height;
 
-  // why use ? here
-
   @override
   Widget build(BuildContext context) {
-    // why doesn't use InkWell
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: width,
-        // ✅ optional width
-        height: height,
-        // ✅ optional height
+    return ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        // Size of the button
+        minimumSize: Size(width == null ? 0 : width!, height ?? 50.h),
+
         padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 30.w),
-        decoration: BoxDecoration(
-          color: bgColor ?? AppColors.black,
-          border: Border.all(
-            color: borderColor == null
-                ? (bgColor ?? Colors.black)
-                : borderColor!,
-            // why use !
-            width: 2.w,
-          ),
-          borderRadius: BorderRadius.circular(8.r),
+        // Colors
+        backgroundColor: bgColor ?? AppColors.black,
+        foregroundColor: textColor ?? AppColors.white,
+
+        side: BorderSide(
+          color: borderColor == null
+              ? (bgColor ?? AppColors.black)
+              : borderColor!,
+          width: 2.w,
         ),
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: AppTextStyle.button.copyWith(
-            color: textColor ?? AppColors.white,
-          ),
-        ),
+
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+
+        textStyle: AppTextStyle.button,
       ),
+
+      child: Text(title, textAlign: TextAlign.center),
     );
   }
 }
 
 /*
-1. ✅ Use GestureDetector vs InkWell (Optional)
 
-InkWell requires Material ancestor to show ripple.
 
-GestureDetector works in any container.
-
-If you want ripple, keep InkWell — but wrap in Material for proper behavior.
- */
-
-/*
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

@@ -74,6 +74,9 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Expanded(
           child: AppButton(
+            onTap: () {
+
+            },
             title: AppString.myQRCode,
             bgColor: Colors.white,
             textColor: Colors.blue,
@@ -82,6 +85,9 @@ class _ProfilePageState extends State<ProfilePage> {
         SizedBox(width: 15.w),
         Expanded(
           child: AppButton(
+            onTap: () {
+
+            },
             title: AppString.share,
             bgColor: Colors.blue,
             textColor: Colors.white,

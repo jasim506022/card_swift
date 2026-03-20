@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 import 'package:card_swift/binding/initial_binding.dart';
+import 'package:card_swift/common/style/app_text_style.dart';
 import 'package:card_swift/route/app_page.dart';
 import 'package:card_swift/route/route_name.dart';
 
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'common/style/app_colors.dart';
 import 'common/style/apps_constant.dart';
 import 'common/style/app_string.dart';
 import 'firebase_options.dart';
@@ -64,15 +66,30 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 752),
       minTextAdapt: true,
-
+      builder: (context, child) {
+        return GetMaterialApp(
+          initialBinding: InitialBinding(),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.white,
+            appBarTheme: AppBarTheme(
+              centerTitle: true,
+              titleTextStyle: AppTextStyle.appBarTitle,
+              backgroundColor: AppColors.white,
+              foregroundColor: AppColors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                textStyle: AppTextStyle.button,
+                foregroundColor: AppColors.black,
+              ),
+            ),
+          ),
+          initialRoute: RouteName.splash,
+          getPages: AppPage.pages,
+        );
+      },
       splitScreenMode: true,
-      child: GetMaterialApp(
-        initialBinding: InitialBinding(),
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
-        initialRoute: RouteName.splash,
-        getPages: AppPage.pages,
-      ),
     );
   }
 }
