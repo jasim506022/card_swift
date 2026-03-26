@@ -8,4 +8,6 @@ class AppAssets {
   // Icon
   static const String googleIcon = "asset/icon/google.png";
   static const String appleIcon = "asset/icon/747.png";
+  /// Path to the warning/error icon asset.
+  static const String warningIconPath = "assets/errors/warning.png";
 }

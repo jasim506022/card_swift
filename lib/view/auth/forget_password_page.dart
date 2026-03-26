@@ -40,11 +40,12 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       children: [
         _buildForm(),
         SizedBox(height: 15.h),
+        // Send Reset Email Button
         AppButton(
           title: AppString.sendResetEmailBtn,
           width: 1.sw,
-          onTap: () =>
-              _authController.resetPassword(_emailController.text.trim()),
+          isLoading: _authController.isLoading,
+          onTap: _handleResetPassword,
         ),
 
         AppClickableText(
@@ -68,43 +69,13 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       ),
     );
   }
+
+  /// Handle sending reset password email
+  void _handleResetPassword() {
+    FocusScope.of(context).unfocus(); // dismiss keyboard
+
+    if (_formKey.currentState!.validate()) {
+      _authController.resetPassword(email:  _emailController.text.trim());
+    }
+  }
 }
-
-/*
-() {
-            Get.back();
-          }
- */
-
-/*
-Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: CustomAppBar(title: AppString.passwordHint),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // AuthHeader(title: AppString.passwordHint),
-            SizedBox(height: 20.h),
-            CustomTextFormField(
-              controller: _emailController,
-              label: "Email",
-              hintText: "Enter your email",
-              textInputType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 30.h),
-            AppButton(
-              textColor: Colors.white,
-
-              title: "Send Reset Email",
-              // isLoading: _authController.isLoading,
-              onTap: () =>
-                  _authController.resetPassword(_emailController.text.trim()),
-              bgColor: Colors.black,
-            ),
-          ],
-        ),
-      ),
-    );
- */
-
-// Why we doesn't use GridView or Stateless

@@ -25,10 +25,10 @@ class AppTextStyle {
     color: Colors.black,
   );
 
-  // Secondary title / screen header
-  static TextStyle subTitle = TextStyle(
+  // Dialog Title
+  static TextStyle subTitle = GoogleFonts.poppins(
     fontSize: 20.sp,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w800,
     color: Colors.black87,
   );
 
@@ -43,14 +43,14 @@ class AppTextStyle {
   static TextStyle bodyTitle = GoogleFonts.poppins(
     fontSize: 15.sp,
     fontWeight: FontWeight.w700,
-    color: Colors.black,
+    color: AppColors.black,
   );
 
   // Paragraph / body text
   static TextStyle body = GoogleFonts.poppins(
     fontSize: 14.sp,
     fontWeight: FontWeight.normal,
-    color: Colors.black87,
+    color: AppColors.black,
   );
 
   // Small body / description / info text
@@ -71,13 +71,14 @@ class AppTextStyle {
   static TextStyle button = GoogleFonts.poppins(
     fontSize: 16.sp,
     fontWeight: FontWeight.w800,
+    color: AppColors.white,
   );
 
   // Input field hint text
   static TextStyle inputHint = GoogleFonts.poppins(
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
-    color: Colors.grey[400],
+    color: AppColors.grey.withValues(alpha: .5),
   );
 
   // Input field label

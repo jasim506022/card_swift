@@ -119,10 +119,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         children: [
           /// Displays the label if provided.
           if (widget.label != null)
-            Text(widget.label!, style: AppTextStyle.bodyTitle),
+            Text(widget.label!, style: Theme.of(context).textTheme.labelMedium),
 
           /// Adds spacing between label and input field.
-          // AppsFunction.verticalSpacing(8),
           SizedBox(height: 10.h),
           TextFormField(
             onChanged: widget.onChanged,
@@ -137,7 +136,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             autofillHints: widget.autofillHints,
             onFieldSubmitted: widget.onFieldSubmitted,
             style: widget.style ?? AppTextStyle.inputLabel,
-            // Understand the meaning of ??
 
             /// Applies custom or default decoration
             decoration:

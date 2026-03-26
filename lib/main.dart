@@ -71,12 +71,46 @@ class MyApp extends StatelessWidget {
           initialBinding: InitialBinding(),
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            dialogTheme: DialogThemeData(
+              backgroundColor: AppColors.white,
+              contentTextStyle: AppTextStyle.body,
+              titleTextStyle: AppTextStyle.appBarTitle,
+            ),
+            outlinedButtonTheme: OutlinedButtonThemeData(
+              style: ButtonStyle(
+                textStyle: WidgetStatePropertyAll(AppTextStyle.button),
+                foregroundColor: WidgetStatePropertyAll(AppColors.black),
+                // Border color & width
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+              ),
+            ),
+            textTheme: TextTheme(
+              bodyMedium: AppTextStyle.body,
+              labelMedium: AppTextStyle.bodyTitle,
+
+            ),
+
             scaffoldBackgroundColor: AppColors.white,
             appBarTheme: AppBarTheme(
               centerTitle: true,
+              elevation: 0,
               titleTextStyle: AppTextStyle.appBarTitle,
               backgroundColor: AppColors.white,
               foregroundColor: AppColors.black,
+              iconTheme: IconThemeData(color: AppColors.black, size: 25.h),
+            ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.black,
+                foregroundColor: AppColors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+              ),
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(

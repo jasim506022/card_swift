@@ -1,19 +1,23 @@
-import 'package:card_swift/service/base_firebase_auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../model/user_model.dart';
+import 'base_firebase_auth_service.dart';
 
-/// Base contract for Firebase authentication services
+/// Firebase Authentication Service implementation
+/// Handles Email/Password, Google Sign-In, and Firestore user profile
 class FirebaseAuthService extends BaseFirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+  /// Returns the currently signed-in Firebase [User], or null if none
   @override
   User? currentUser() => _auth.currentUser;
 
+  /// Sign up new user using Email & Password
+  /// Returns the Firebase [User] object on success
   @override
   Future<User?> signUp({
     required String email,
@@ -26,16 +30,17 @@ class FirebaseAuthService extends BaseFirebaseAuthService {
     return credential.user;
   }
 
+  /// Save user profile data to Firestore under `users/{userId}`
   @override
   Future<void> saveUserProfile({
-    required String uid,
+    required String userId,
     required UserModel userModel,
   }) async {
-    await _firestore.collection('users').doc(uid).set(userModel.toMap());
+    await _firestore.collection('users').doc(userId).set(userModel.toMap());
   }
 
-  /// Sign in user with email & password
-  /// Returns UID on success or throws FirebaseAuthException
+  /// Sign in using Email & Password
+  /// Returns the user UID on success
   @override
   Future<String> signIn({
     required String email,
@@ -45,10 +50,11 @@ class FirebaseAuthService extends BaseFirebaseAuthService {
       email: email,
       password: password,
     );
+    // Safe to use ! because signInWithEmailAndPassword throws on failure
     return userCredential.user!.uid;
   }
 
-  /// Sign out from all providers
+  /// Sign out from Firebase and Google (if previously signed in)
   @override
   Future<void> signOut() async {
     // Sign out from Firebase
@@ -60,15 +66,13 @@ class FirebaseAuthService extends BaseFirebaseAuthService {
     }
   }
 
-  /// Google Sign In
+  /// Sign in using Google
+  /// Returns the Firebase [User] object on success or null if canceled
   @override
   Future<User?> signInGoogle() async {
     final googleUser = await _googleSignIn.signIn();
-
     if (googleUser == null) return null;
-
     final googleAuth = await googleUser.authentication;
-
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
@@ -78,49 +82,20 @@ class FirebaseAuthService extends BaseFirebaseAuthService {
     return userCredential.user;
   }
 
-  /// Send password reset email
+  /// Send password reset email to [email]
   @override
   Future<void> sendPasswordResetEmail({required String email}) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
+
+  /// Check if the user exists in Firestore
+  @override
+  Future<bool> userExists() async {
+    final userId = _auth.currentUser?.uid;
+    if (userId == null) return false;
+
+    final userDoc = await _firestore.collection('users').doc(userId).get();
+
+    return userDoc.exists;
+  }
 }
-
-/*
-Named parameters make code more readable when calling.
-Dependency Injection (Very Important)
- */
-
-/*
-Why
-
-This allows dependency injection, which is important for:
-
-unit testing
-
-mocking Firebase
-
-flexible architecture
-
-Example test:
-
-FirebaseAuthService(auth: mockAuth);
-
-Senior Flutter developers always allow dependency injection.
-
- 1. Professional Flutter projects use short private names.
-
-
- */
-
-/*
-❓ “Why define dependencies in constructor instead of top?”
-❌ Bad (hard-coded)
-final _firebaseAuth = FirebaseAuth.instance;
-Good (your current improved version)
-FirebaseAuth? auth
-✔ Benefits:
-Testable (mock Firebase easily)
-Flexible (swap implementation)
-Clean architecture (dependency injection)
-Scalable for large apps
- */

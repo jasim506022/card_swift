@@ -24,6 +24,9 @@ class AppString {
   static const String skipBtn = "Skip";
   static const String finishBtn = "Finish";
   static const String nextBtn = "Next";
+  static const String yesBtn = "Yes";
+  static const String noBtn = "No";
+  static const String okayBtn = "Okay";
   static const String sendResetEmailBtn = "Send Reset Email";
 
   static const String appProfileName = "Md Jasim Uddin";
@@ -67,4 +70,71 @@ class AppString {
   static const String forgetPassword = "Forgot Password?";
   static const String loginWith = "Or Login with";
   static const String backTo = "Back to ";
+
+  /// ------------------------------------------------------------------------
+  /// ✅ Success & Toast Messages
+  /// ------------------------------------------------------------------------
+
+  static const String loginProcessOngoingToast =
+      "Login process is in progress. Please wait...";
+
+  /// ------------------------------------------------------------------------
+  /// 🔔 Dialog Titles & Messages
+  /// ------------------------------------------------------------------------
+  static const String exitDialogTitle = "Exit Application";
+  static const String selectPhotoTitle = "Select Photo";
+  static const String takePhotoCameraTitle = "Take a Photo";
+  static const String chooseFromGalleryTitle = "Choose from Gallery";
+  static const String saveChangesTitle = "Save Changes?";
+  static const String areYouWantDeleteTitle = "Do you want to delete?";
+
+  static const String confirmExitMessage = "Are you sure  want to exit?";
+  static const String saveMessage = "Do you want to save your changes?";
+  static const String deleteMessage =
+      "Do you want to delete the product? If you delete the product, it cannot be undone.";
+  static String pleaseWaitMessage = "Please wait........";
+  static String doYouwantSignoutMessage = "Do you want to sign out?";
+
+  // Email
+  static const String emptyEmail = "Please enter your email address.";
+  static const String invalidEmailFormat =
+      "Invalid email format! Please enter a valid email.";
+  static const String emailTooLong =
+      "Email address is too long. Please enter a valid email.";
+
+  // Password
+  static const String emptyPassword = "Please enter your password.";
+  static const String passwordTooShort =
+      "Password must be at least 6 characters long.";
+  static const String passwordTooLong = "Password cannot exceed 20 characters.";
+  static const String passwordUppercase =
+      "Password must contain at least one uppercase letter.";
+  static const String passwordLowercase =
+      "Password must contain at least one lowercase letter.";
+  static const String passwordNumber =
+      "Password must contain at least one number.";
+
+  // Confirm Password
+  static const String confirmPasswordRequired = "Please confirm your password.";
+  static const String passwordMismatch =
+      "Passwords do not match. Please re-enter.";
+
+  // Name
+  static const String emptyName = "Please enter your name.";
+  static const String nameTooShort = "Name must be at least 2 characters long.";
+  static const String nameTooLong = "Name cannot exceed 50 characters.";
+  static const String nameInvalid = "Name can only contain letters and spaces.";
+
+  static String signInSuccessfully = "Sign in Successfully";
+  static String processingCannotBack = "Processing... You cannot go back now";
+
+  static const String authPageDescription =
+      "Check our fresh veggies from Jasim Grocery";
+
+  static const String passwordMatch = "Passwords do not match.";
+  static const String signUpSuccessfulToast = "Sign up Successfully";
+  static const String sendingMailToast =
+      "Sending a mail. Please Check ur Email";
+
+
 }

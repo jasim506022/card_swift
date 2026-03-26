@@ -19,7 +19,6 @@ class UserModel {
     this.createdAt,
   });
 
-  // Understand This
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -32,7 +31,6 @@ class UserModel {
     };
   }
 
-  // Understand this why use it Factory UserModel
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       name: map['name'] as String,
@@ -45,7 +43,6 @@ class UserModel {
     );
   }
 
-  // When it's use
   UserModel copyWith({
     String? name,
     String? email,

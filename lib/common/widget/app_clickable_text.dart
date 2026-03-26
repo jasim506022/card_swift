@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../style/app_colors.dart';
 import '../style/app_text_style.dart';
 
+/// Widget that displays text with a clickable portion (link).
 class AppClickableText extends StatelessWidget {
   const AppClickableText({
     super.key,
@@ -12,8 +13,13 @@ class AppClickableText extends StatelessWidget {
     required this.onTap,
   });
 
+  /// Normal text before the clickable part
   final String prefixText;
+
+  /// Clickable text
   final String linkText;
+
+  /// Clickable text
   final VoidCallback onTap;
 
   @override
@@ -21,7 +27,10 @@ class AppClickableText extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          TextSpan(text: prefixText, style: AppTextStyle.body),
+          TextSpan(
+            text: prefixText,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           TextSpan(
             text: linkText,
             style: AppTextStyle.button.copyWith(
@@ -35,18 +44,3 @@ class AppClickableText extends StatelessWidget {
     );
   }
 }
-
-/*
-⚠️ TapGestureRecognizer inside StatelessWidget → potential memory leak
- */
-
-/*
-  // Why we doesn't use other RichText
- */
-/*
-// Understand ths Code .. and other
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Get.toNamed(navigatorName);
-              },
- */
