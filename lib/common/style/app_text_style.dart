@@ -54,10 +54,17 @@ class AppTextStyle {
   );
 
   // Small body / description / info text
-  static TextStyle smallBody = TextStyle(
-    fontSize: 14.sp,
+  static TextStyle smallBody = GoogleFonts.poppins(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  );
+
+  // Small body / description / info text
+  static TextStyle small = GoogleFonts.poppins(
+    fontSize: 12.sp,
     fontWeight: FontWeight.normal,
-    color: Colors.grey[700],
+    color: Colors.black,
   );
 
   // Caption / helper text

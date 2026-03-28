@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:card_swift/add_contract/add_contact.dart';
+import 'package:card_swift/add_contract/home.dart';
 import 'package:card_swift/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _screens = [
     ProfilePage(),
-    Center(child: Text("Search Screen")),
+    HomeViewPage(),
     Center(child: Text("Settings Screen")),
     Center(child: Text("Profile Screen")),
   ];

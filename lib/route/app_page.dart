@@ -1,3 +1,4 @@
+import 'package:card_swift/add_contract/home_page.dart';
 import 'package:get/get.dart';
 
 import '../add_contract/home.dart';
@@ -15,6 +16,7 @@ class AppPage {
     GetPage(name: RouteName.signPage, page: () => SignInPage()),
     GetPage(name: RouteName.signUpPage, page: () => SignUpPage()),
     GetPage(name: RouteName.passwordPage, page: () => ForgetPasswordPage()),
-    GetPage(name: RouteName.homePage, page: () => HomeViewPage()),
+    GetPage(name: RouteName.homePage, page: () => HomePage()),
+    // GetPage(name: RouteName.homePage, page: () => HomeViewPage()),
   ];
 }

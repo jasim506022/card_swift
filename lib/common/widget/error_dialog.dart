@@ -39,7 +39,6 @@ class ErrorDialogWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.warning_rounded, size: 100.h, color: AppColors.red,),
-              // Image.asset(icon, height: 100.h, width: 100.h),
               SizedBox(height: 20.h),
               Text(
                 title,

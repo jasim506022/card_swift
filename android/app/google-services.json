@@ -12,7 +12,20 @@
           "package_name": "com.example.card_swift"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "774489257998-ojhc20oqpim9entsbh17fl2hhk2e6lnq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.card_swift",
+            "certificate_hash": "8846ab7ecdc65de7ac249bacfe2e0363d1288378"
+          }
+        },
+        {
+          "client_id": "774489257998-i0boso3t9qpb33k3nmj6ao47aj16hv56.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBj31_SOOIMnKzppSldEmPwHQDGKikdF74"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "774489257998-i0boso3t9qpb33k3nmj6ao47aj16hv56.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "774489257998-37u1npbfe1263r1jupcusmq5r8efd9j6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cardSwift"
+              }
+            }
+          ]
         }
       }
     }

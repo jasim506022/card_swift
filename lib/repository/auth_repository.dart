@@ -59,13 +59,23 @@ class AuthRepository {
 
   /// Sign in using Google
   /// Returns Firebase [User] on success or null if canceled
-  Future<User?> signInGoogle() {
-    return _service.signInGoogle();
+  Future<User?> signInGoogle() async {
+    try {
+      return await _service.signInGoogle();
+    } catch (e) {
+      AppFunction.handleException(e);
+      rethrow;
+    }
   }
 
   /// Send password reset email
-  Future<void> sendPasswordReset({required String email}) {
-    return _service.sendPasswordResetEmail(email: email);
+  Future<void> sendPasswordReset({required String email}) async {
+    try {
+      return await _service.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      AppFunction.handleException(e);
+      rethrow;
+    }
   }
 
   /// Sign out from all providers (Firebase & Google)

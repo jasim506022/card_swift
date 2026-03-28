@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../common/style/app_assets.dart';
 import '../../common/style/app_colors.dart';
+import '../../common/style/app_function.dart';
 import '../../common/style/app_string.dart';
 import '../../common/style/app_text_style.dart';
 import '../../common/style/app_validator.dart';
@@ -16,7 +17,6 @@ import '../../route/route_name.dart';
 import 'widget/auth_layout.dart';
 
 /// Sign In Page with Email/Password login, social login, and navigation to Sign Up / Forgot Password.
-
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
@@ -47,58 +47,67 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) =>
-          _authController.confirmExitApp(),
-      child: AuthLayout(
-        title: AppString.signIn,
-        showBackButton: false,
-        children: [
-          _buildForm(),
-          SizedBox(height: 20.h),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) =>
+            _authController.confirmExitApp(),
+        child: AuthLayout(
+          title: AppString.signIn,
+          showBackButton: false,
+          children: [
+            _buildForm(),
+            SizedBox(height: 20.h),
 
-          // Sign In Button with loading state
-          AppButton(
-            isLoading: _authController.isLoading,
-            width: 1.sw,
-            title: AppString.signIn,
-            onTap: _handleSignIn,
-          ),
+            // Sign In Button with loading state
+            AppButton(
+              isLoading: _authController.isLoading,
+              width: 1.sw,
+              title: AppString.signIn,
+              onTap: _handleSignIn,
+            ),
 
-          SizedBox(height: 15.h),
+            SizedBox(height: 15.h),
 
-          // Forgot Password
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () => Get.toNamed(RouteName.passwordPage),
-              child: Text(
-                AppString.forgetPassword,
-                style: AppTextStyle.button.copyWith(
-                  color: AppColors.black.withValues(alpha: .5),
-                  fontSize: 14.sp,
+            // Forgot Password
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  if (_handleIfLoading()) return;
+                  Get.toNamed(RouteName.passwordPage);
+                },
+                child: Text(
+                  AppString.forgetPassword,
+                  style: AppTextStyle.button.copyWith(
+                    color: AppColors.black.withValues(alpha: .5),
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 15.h),
+            SizedBox(height: 15.h),
 
-          // Social Login Section
-          _buildSocialDivider(),
-          SizedBox(height: 24.h),
+            // Social Login Section
+            _buildSocialDivider(),
+            SizedBox(height: 24.h),
 
-          /// Social login buttons (Google, Apple, Facebook)
-          _buildSocialButtons(),
-          SizedBox(height: 40.h),
-          Center(
-            child: AppClickableText(
-              onTap: () => Get.toNamed(RouteName.signUpPage),
-              prefixText: AppString.doNotHaveAccount,
-              linkText: AppString.signUp,
+            /// Social login buttons (Google, Apple, Facebook)
+            _buildSocialButtons(),
+            SizedBox(height: 40.h),
+            Center(
+              child: AppClickableText(
+                onTap: () {
+                  if (_handleIfLoading()) return;
+                  Get.toNamed(RouteName.signUpPage);
+                },
+                prefixText: AppString.doNotHaveAccount,
+                linkText: AppString.signUp,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -162,11 +171,18 @@ class _SignInPageState extends State<SignInPage> {
 
   /// Handle SignUp
   Future<void> _handleSignIn() async {
-    FocusScope.of(context).unfocus();
     if (!_formKey.currentState!.validate()) return;
     await _authController.signIn(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
+  }
+
+  bool _handleIfLoading() {
+    if (_authController.isLoading.value) {
+      AppFunction.flutterToast(msg: AppString.processingCannotBack);
+      return true; // handled (blocked)
+    }
+    return false; // not loading
   }
 }

@@ -48,42 +48,45 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (_handleIfLoading()) return;
-        Get.back();
-      },
-      child: AuthLayout(
-        onBackPressed: () {
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(), // dismiss keyboard,
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
           if (_handleIfLoading()) return;
           Get.back();
         },
-        title: AppString.signUp,
-        children: [
-          _buildForm(),
-          SizedBox(height: 20.h),
-          // Sign Up Button with optional loading state
-          AppButton(
-            isLoading: _authController.isLoading,
-            width: 1.sw,
-            title: AppString.signUp,
-            onTap: _handleSignUp,
-          ),
-          SizedBox(height: 20.h),
-
-          /// Navigate to Sign In
-          Center(
-            child: AppClickableText(
-              onTap: () {
-                if (_handleIfLoading()) return;
-                Get.back();
-              },
-              prefixText: AppString.alreadyHaveAccount,
-              linkText: AppString.signIn,
+        child: AuthLayout(
+          onBackPressed: () {
+            if (_handleIfLoading()) return;
+            Get.back();
+          },
+          title: AppString.signUp,
+          children: [
+            _buildForm(),
+            SizedBox(height: 20.h),
+            // Sign Up Button with optional loading state
+            AppButton(
+              isLoading: _authController.isLoading,
+              width: 1.sw,
+              title: AppString.signUp,
+              onTap: _handleSignUp,
             ),
-          ),
-        ],
+            SizedBox(height: 20.h),
+
+            /// Navigate to Sign In
+            Center(
+              child: AppClickableText(
+                onTap: () {
+                  if (_handleIfLoading()) return;
+                  Get.back();
+                },
+                prefixText: AppString.alreadyHaveAccount,
+                linkText: AppString.signIn,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -140,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   /// Handle SignUp
   void _handleSignUp() {
-    FocusScope.of(context).unfocus(); // dismiss keyboard
+
     if (!_formKey.currentState!.validate()) return;
     _authController.signUp(
       email: _emailController.text.trim(),

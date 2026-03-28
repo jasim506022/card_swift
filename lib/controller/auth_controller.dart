@@ -1,4 +1,3 @@
-import 'package:card_swift/common/style/app_assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 
+import '../common/style/app_assets.dart';
 import '../common/style/app_function.dart';
 import '../common/style/app_string.dart';
 import '../common/widget/app_alert_dialog.dart';
@@ -26,6 +26,7 @@ class AuthController extends GetxController {
   AuthController({required AuthRepository authRepository})
     : _repository = authRepository;
 
+  /// ================= SIGN UP =================
   /// Sign up using email and password, then save user profile
   Future<void> signUp({
     required String email,
@@ -41,14 +42,10 @@ class AuthController extends GetxController {
       );
 
       if (user != null) {
-        var userModel = UserModel(
-          name: name,
-          email: email,
-          uid: user.uid,
-          createdAt: Timestamp.now(),
-        );
+        var userModel = _createUserModel(user: user, name: name, email: email);
+
         await _repository.saveProfile(user: userModel, uid: user.uid);
-        _navigateToMainPage(AppString.signUpSuccessfulToast);
+        _navigateToMainPage(message: AppString.signUpSuccessfulToast);
       }
     } catch (e) {
       // Handle any errors during registration
@@ -58,11 +55,12 @@ class AuthController extends GetxController {
     }
   }
 
+  /// ================= SIGN IN =================
   Future<void> signIn({required String email, required String password}) async {
     try {
       isLoading.value = true;
       await _repository.signIn(email: email, password: password);
-      _navigateToMainPage(AppString.signInSuccessfully);
+      _navigateToMainPage(message: AppString.signInSuccessfully);
     } catch (e) {
       _handleError(e);
     } finally {
@@ -70,24 +68,20 @@ class AuthController extends GetxController {
     }
   }
 
+  /// ================= GOOGLE SIGN IN =================
   Future<void> signInGoogle() async {
     try {
       _showLoadingDialog();
-      final user = await _repository.signInGoogle();
+      final User? user = await _repository.signInGoogle();
       Get.back();
       if (user != null) {
-        if (await _repository.isUserProfileExists()) {
-          _navigateToMainPage(AppString.signInSuccessfully);
-        } else {
-          var userModel = UserModel(
-            name: user.displayName,
-            email: user.email,
-            uid: user.uid,
-            createdAt: Timestamp.now(),
-          );
+        final exists = await _repository.isUserProfileExists();
+
+        if (!exists) {
+          final userModel = _createUserModel(user: user);
           await _repository.saveProfile(user: userModel, uid: user.uid);
-          _navigateToMainPage(AppString.signInSuccessfully);
         }
+        _navigateToMainPage(message: AppString.signInSuccessfully);
       }
     } catch (e) {
       Get.back();
@@ -95,12 +89,15 @@ class AuthController extends GetxController {
     }
   }
 
+  /// ================= RESET PASSWORD =================
   Future<void> resetPassword({required String email}) async {
     try {
       isLoading.value = true;
       await _repository.sendPasswordReset(email: email);
-      AppFunction.flutterToast(msg: AppString.sendingMailToast);
-      Get.toNamed(RouteName.signPage);
+      _navigateToMainPage(
+        message: AppString.sendingMailToast,
+        routeName: RouteName.signPage,
+      );
     } catch (e) {
       _handleError(e);
     } finally {
@@ -108,15 +105,18 @@ class AuthController extends GetxController {
     }
   }
 
+  /// ================= SIGN OUT =================
+
   Future<void> signOut() async {
     try {
       await _repository.signOut();
-      Get.offAllNamed(RouteName.signPage); // Redirect to login or splash
+      Get.offAllNamed(RouteName.signPage);
     } catch (e) {
       _handleError(e);
     }
   }
 
+  /// ================= EXIT APP =================
   Future<void> confirmExitApp() async {
     if (isLoading.value) {
       AppFunction.flutterToast(msg: AppString.loginProcessOngoingToast);
@@ -138,12 +138,27 @@ class AuthController extends GetxController {
     if (shouldPop) SystemNavigator.pop();
   }
 
+  /// ================= HELPERS =================
 
+  UserModel _createUserModel({
+    String? name,
+    String? email,
+    required User user,
+    String? photoUrl,
+  }) {
+    return UserModel(
+      name: name ?? user.displayName,
+      email: email ?? user.email,
+      uid: user.uid,
+      photoUrl: photoUrl ?? user.photoURL,
+      createdAt: Timestamp.now(),
+    );
+  }
 
   /// Navigates to the main page with a success message.
-  void _navigateToMainPage(String message) {
+  void _navigateToMainPage({required String message, String? routeName}) {
     AppFunction.flutterToast(msg: message);
-    Get.offNamed(RouteName.homePage);
+    Get.offNamed(routeName ?? RouteName.homePage);
   }
 
   /// Displays a loading dialog.
@@ -151,7 +166,7 @@ class AuthController extends GetxController {
     Get.dialog(
       ErrorDialogWidget(
         icon: AppAssets.warningIconPath,
-        title: AppString.authPageDescription,
+        title: AppString.googleSignInProcessing,
         buttonText: AppString.okayBtn,
       ),
       barrierDismissible: false,

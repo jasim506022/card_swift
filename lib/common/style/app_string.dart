@@ -128,8 +128,8 @@ class AppString {
   static String signInSuccessfully = "Sign in Successfully";
   static String processingCannotBack = "Processing... You cannot go back now";
 
-  static const String authPageDescription =
-      "Check our fresh veggies from Jasim Grocery";
+  static const String googleSignInProcessing =
+      "Please Waiting.. Google Sign in Processing";
 
   static const String passwordMatch = "Passwords do not match.";
   static const String signUpSuccessfulToast = "Sign up Successfully";
