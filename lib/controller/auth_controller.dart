@@ -1,3 +1,4 @@
+import 'package:card_swift/model/contact_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,10 @@ import 'package:get/get.dart';
 import '../common/style/app_assets.dart';
 import '../common/style/app_function.dart';
 import '../common/style/app_string.dart';
+import '../common/style/apps_constant.dart';
 import '../common/widget/app_alert_dialog.dart';
 import '../common/widget/app_exception.dart';
 import '../common/widget/error_dialog.dart';
-import '../model/user_model.dart';
 import '../repository/auth_repository.dart';
 import '../route/route_name.dart';
 
@@ -42,10 +43,13 @@ class AuthController extends GetxController {
       );
 
       if (user != null) {
-        var userModel = _createUserModel(user: user, name: name, email: email);
+        var contactModel = _createUserModel(user: user, name: name, email: email);
 
-        await _repository.saveProfile(user: userModel, uid: user.uid);
-        _navigateToMainPage(message: AppString.signUpSuccessfulToast);
+        await _repository.saveProfile(contactModel: contactModel, uid: user.uid);
+        _navigateToMainPage(
+          message: AppString.signUpSuccessfulToast,
+          uid: user.uid,
+        );
       }
     } catch (e) {
       // Handle any errors during registration
@@ -59,8 +63,8 @@ class AuthController extends GetxController {
   Future<void> signIn({required String email, required String password}) async {
     try {
       isLoading.value = true;
-      await _repository.signIn(email: email, password: password);
-      _navigateToMainPage(message: AppString.signInSuccessfully);
+      var user = await _repository.signIn(email: email, password: password);
+      _navigateToMainPage(message: AppString.signInSuccessfully, uid: user);
     } catch (e) {
       _handleError(e);
     } finally {
@@ -78,10 +82,16 @@ class AuthController extends GetxController {
         final exists = await _repository.isUserProfileExists();
 
         if (!exists) {
-          final userModel = _createUserModel(user: user);
-          await _repository.saveProfile(user: userModel, uid: user.uid);
+          final contactModel = _createUserModel(user: user);
+          await _repository.saveProfile(
+            contactModel: contactModel,
+            uid: user.uid,
+          );
         }
-        _navigateToMainPage(message: AppString.signInSuccessfully);
+        _navigateToMainPage(
+          message: AppString.signInSuccessfully,
+          uid: user.uid,
+        );
       }
     } catch (e) {
       Get.back();
@@ -140,23 +150,33 @@ class AuthController extends GetxController {
 
   /// ================= HELPERS =================
 
-  UserModel _createUserModel({
+  ContactModel _createUserModel({
     String? name,
     String? email,
     required User user,
     String? photoUrl,
   }) {
-    return UserModel(
-      name: name ?? user.displayName,
-      email: email ?? user.email,
+    return ContactModel(
+      firstName: name ?? user.displayName,
+      email: [email ?? user.email ?? ""],
       uid: user.uid,
-      photoUrl: photoUrl ?? user.photoURL,
+      image: photoUrl ?? user.photoURL,
       createdAt: Timestamp.now(),
     );
   }
 
   /// Navigates to the main page with a success message.
-  void _navigateToMainPage({required String message, String? routeName}) {
+  void _navigateToMainPage({
+    required String message,
+    String? uid,
+    String? routeName,
+  }) {
+    if (uid != null) {
+      AppsConstant.sharedPreferences!.setString(
+        AppString.uidSharedPreference,
+        uid,
+      );
+    }
     AppFunction.flutterToast(msg: message);
     Get.offNamed(routeName ?? RouteName.homePage);
   }

@@ -10,7 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'common/style/app_colors.dart';
 import 'common/style/apps_constant.dart';
 import 'common/style/app_string.dart';
@@ -91,7 +90,6 @@ class MyApp extends StatelessWidget {
             textTheme: TextTheme(
               bodyMedium: AppTextStyle.body,
               labelMedium: AppTextStyle.bodyTitle,
-
             ),
 
             scaffoldBackgroundColor: AppColors.white,
@@ -123,7 +121,10 @@ class MyApp extends StatelessWidget {
           getPages: AppPage.pages,
         );
       },
+      // What is meaning
       splitScreenMode: true,
     );
   }
 }
+
+

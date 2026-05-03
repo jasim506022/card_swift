@@ -1,12 +1,15 @@
 import 'package:card_swift/common/style/app_colors.dart';
 import 'package:card_swift/common/style/app_string.dart';
 import 'package:card_swift/common/style/app_text_style.dart';
+import 'package:card_swift/common/style/apps_constant.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import '../../common/widget/app_button.dart';
 import '../../common/widget/custom_text_form_field.dart';
+import '../../model/contact_model.dart';
 import 'widget/custom_phone_number_field.dart';
 import 'widget/heading_widget.dart';
 import 'widget/input_field_row.dart';
@@ -27,42 +30,74 @@ class _ProfilePageState extends State<ProfilePage> {
   String initialCountry = 'BD';
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
 
+  var data = FirebaseFirestore.instance
+      .collection("users")
+      .doc(
+        AppsConstant.sharedPreferences!.getString(
+          AppString.uidSharedPreference,
+        ),
+      )
+      .get();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Reusable Profile Header
-            const HeadingWidget(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsetsGeometry.symmetric(
-                    horizontal: 15.w,
-                    vertical: 25.h,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildHeaderButtons(),
-
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20.h),
-                        child: _buildContactInputs(),
-                      ),
-
-                      _buildCameraCard(),
-                      SizedBox(height: 15.h,),
-                      _buildBusinessDescription()
-                    ],
-                  ),
+        body: FutureBuilder(
+          future: data,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              print(
+                AppsConstant.sharedPreferences!.getString(
+                  AppString.uidSharedPreference,
                 ),
-              ),
-            ),
-          ],
+              );
+
+              print(snapshot.data!.data());
+
+              final snapshotData = snapshot.data; // এটি একটি DocumentSnapshot
+              final Map<String, dynamic> data =
+                  snapshotData!.data() as Map<String, dynamic>;
+
+              // এখন আপনি আপনার মডেলে ডাটা নিতে পারবেন
+              ContactModel contact = ContactModel.fromMap(data);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Reusable Profile Header
+                  HeadingWidget(contactModel: contact),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsetsGeometry.symmetric(
+                          horizontal: 15.w,
+                          vertical: 25.h,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildHeaderButtons(),
+
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: _buildContactInputs(),
+                            ),
+
+                            _buildCameraCard(),
+                            SizedBox(height: 15.h),
+                            _buildBusinessDescription(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            return CircularProgressIndicator();
+          },
         ),
       ),
     );
@@ -74,9 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Expanded(
           child: AppButton(
-            onTap: () {
-
-            },
+            onTap: () {},
             title: AppString.myQRCode,
             bgColor: Colors.white,
             textColor: Colors.blue,
@@ -85,9 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
         SizedBox(width: 15.w),
         Expanded(
           child: AppButton(
-            onTap: () {
-
-            },
+            onTap: () {},
             title: AppString.share,
             bgColor: Colors.blue,
             textColor: Colors.white,
@@ -133,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Text(
           AppString.capturePersonalBusinessCard,
-          style: AppTextStyle.heading,
+          style: AppTextStyle.bodyTitle,
         ),
         SizedBox(height: 10.h),
         Container(
@@ -145,7 +176,10 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               Icon(Icons.camera_alt, color: Colors.white, size: 35.h),
-              Text(AppString.newCard, style: AppTextStyle.textBold.copyWith(color: AppColors.white)),
+              Text(
+                AppString.newCard,
+                style: AppTextStyle.textBold.copyWith(color: AppColors.white),
+              ),
             ],
           ),
         ),
@@ -165,13 +199,8 @@ class _ProfilePageState extends State<ProfilePage> {
           controller: businessController,
           maxLines: 2,
           textInputType: TextInputType.multiline,
-
         ),
       ],
     );
   }
-
 }
-
-
-

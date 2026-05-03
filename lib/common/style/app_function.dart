@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +11,13 @@ import '../widget/app_exception.dart';
 import 'app_colors.dart';
 
 class AppFunction {
+
+  /// Provides vertical spacing with adaptive height scaling.
+  static SizedBox verticalSpacing(double height) => SizedBox(height: height.h);
+
+  /// Provides horizontal spacing with adaptive width scaling.
+  static SizedBox horizontalSpacing(double width) => SizedBox(width: width.w);
+
   static void flutterToast({required String msg}) {
     Fluttertoast.showToast(
       msg: msg,

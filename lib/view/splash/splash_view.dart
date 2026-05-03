@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../common/style/app_colors.dart';
+import '../../common/style/app_function.dart';
 import '../../common/style/app_string.dart';
 import '../../common/style/app_text_style.dart';
 import '../../common/widget/app_logo.dart';
@@ -23,7 +24,7 @@ class SplashView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const AppLogo(),
-                SizedBox(height: 10.h),
+                AppFunction.verticalSpacing(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

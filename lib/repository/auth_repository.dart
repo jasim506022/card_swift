@@ -1,3 +1,4 @@
+import 'package:card_swift/model/contact_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../common/style/app_function.dart';
@@ -32,11 +33,11 @@ class AuthRepository {
   /// [user] - User data
   /// [uid] - Firebase user ID
   Future<void> saveProfile({
-    required UserModel user,
+    required ContactModel contactModel,
     required String uid,
   }) async {
     try {
-      await _service.saveUserProfile(userModel: user, userId: uid);
+      await _service.saveUserProfile(contactModel: contactModel, userId: uid);
     } catch (e) {
       AppFunction.handleException(e);
       rethrow;

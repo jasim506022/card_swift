@@ -19,21 +19,23 @@ class AppString {
 
   // Onboarding SharePrefer
   static const String onboardSharePrefer = "onboard";
+  static const String uidSharedPreference = "uid";
 
   // button
   static const String skipBtn = "Skip";
   static const String finishBtn = "Finish";
   static const String nextBtn = "Next";
+  static const String saveBtn = "Save";
   static const String yesBtn = "Yes";
   static const String noBtn = "No";
   static const String okayBtn = "Okay";
   static const String sendResetEmailBtn = "Send Reset Email";
 
-  static const String appProfileName = "Md Jasim Uddin";
+  static const String profileName = "Unknow";
   static const String appDesignation = "Your Designation";
   static const String companyName = "Your Company";
   static const String change = "Change.....";
-  static const String myQRCode = "MY QR CODE";
+  static const String myQRCode = "My QR Code";
   static const String share = "Share";
   static const String enterYourEmailHint = "Enter your email";
   static const String alternativeEmailHint = "Alternate Email Address";
@@ -136,5 +138,24 @@ class AppString {
   static const String sendingMailToast =
       "Sending a mail. Please Check ur Email";
 
+  // Hints
+  static const String hintFirstName = "First Name";
+  static const String hintLastName = "Last Name";
+  static const String hintJobTitle = "Job Title";
+  static const String hintCompanyName = "Company Name";
+  static const String hintDescription = "Description";
+  static const String hintMobileNumber = "Mobile Number";
+  static const String hintPhoneNumber = "Phone Number";
+  static const String hintEmailAddress = "Email Address";
+  static const String hintStreetName = "Street Name";
+  static const String hintCity = "City";
+  static const String hintZipCode = "ZIP Code";
+  static const String hintCountry = "Country";
+  static const String hintWhatsapp = "Whatsapp";
+  static const String hintWebsite = "Website";
+  static const String hintFacebook = "Facebook";
 
+  // Buttons/UI
+
+  static const String addPicture = "ADD PICTURE";
 }

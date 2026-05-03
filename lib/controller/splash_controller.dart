@@ -33,7 +33,6 @@ class SplashController extends GetxController {
       await Future.delayed(Duration(seconds: 2), () {
         final user = repository.currentUser();
         final targetRoute = _resolveRoute(user);
-
         Get.offNamed(targetRoute);
       });
 

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyle {
+
   // App Name Text Title
   static TextStyle appNameTitle = GoogleFonts.alfaSlabOne(
     fontSize: 24.sp,
@@ -13,14 +14,14 @@ class AppTextStyle {
   );
 
   static TextStyle appBarTitle = GoogleFonts.poppins(
-    fontSize: 18.sp,
+    fontSize: 17.sp,
     fontWeight: FontWeight.w700,
     color: AppColors.black,
   );
 
   // Main page title
   static TextStyle title = GoogleFonts.poppins(
-    fontSize: 24.sp,
+    fontSize: 22.sp,
     fontWeight: FontWeight.w800,
     color: Colors.black,
   );
@@ -28,6 +29,20 @@ class AppTextStyle {
   // Dialog Title
   static TextStyle subTitle = GoogleFonts.poppins(
     fontSize: 20.sp,
+    fontWeight: FontWeight.w800,
+    color: Colors.black87,
+  );
+
+  // Dialog Title
+  static TextStyle subSmallTitle = GoogleFonts.poppins(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w800,
+    color: Colors.black87,
+  );
+
+  // Dialog Title
+  static TextStyle bodyTitles = GoogleFonts.poppins(
+    fontSize: 18.sp,
     fontWeight: FontWeight.w800,
     color: Colors.black87,
   );
@@ -76,7 +91,7 @@ class AppTextStyle {
 
   // Button text
   static TextStyle button = GoogleFonts.poppins(
-    fontSize: 16.sp,
+    fontSize: 15.sp,
     fontWeight: FontWeight.w800,
     color: AppColors.white,
   );
@@ -136,7 +151,7 @@ class AppTextStyle {
 
   static TextStyle mediumNormal = GoogleFonts.poppins(
     color: Colors.black,
-    fontSize: 16.sp,
+    fontSize: 15.sp,
     fontWeight: FontWeight.normal,
   );
 

@@ -1,6 +1,8 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:card_swift/add_contract/add_contact.dart';
+import 'package:card_swift/add_contract/example/pages/contacts_page.dart';
 import 'package:card_swift/add_contract/home.dart';
+import 'package:card_swift/add_contract/scan_page.dart';
 import 'package:card_swift/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +29,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _screens = [
     ProfilePage(),
     HomeViewPage(),
-    Center(child: Text("Settings Screen")),
+    // AddContact(),
+    Center(child: Text("Profile Screen")),
     Center(child: Text("Profile Screen")),
   ];
 
@@ -46,17 +49,19 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         shape: const CircleBorder(),
         child: Icon(Icons.camera_alt, size: 40.h, color: Colors.grey),
-        onPressed: () => print("Camera Opened"),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CardScannerScreen()),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       bottomNavigationBar: Container(
-
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
               color: Colors.grey.shade300, // Color of the line
-              width: 1.0,                 // Thickness of the line
+              width: 1.0, // Thickness of the line
             ),
           ),
         ),

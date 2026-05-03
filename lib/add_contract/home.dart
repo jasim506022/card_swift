@@ -38,115 +38,46 @@ class _HomeViewPageState extends State<HomeViewPage>
         backgroundColor: AppColors.white,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextFormField(
-                hintText: "Search Cards",
-                controller: textEditingController,
-              ),
-              SizedBox(height: 10.h),
-
-              MenuGrid(),
-
-              Divider(color: Colors.grey),
-
-              Row(
-                children: List.generate(
-                  tabs.length,
-                  (index) => Padding(
-                    padding: EdgeInsets.only(right: 16.w),
-                    child: CustomTab(
-                      title: tabs[index],
-                      isSelected: selectedIndex == index,
-                      onTap: () => setState(() => selectedIndex = index),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextFormField(
+                  hintText: "Search Cards",
+                  controller: textEditingController,
+                ),
+                SizedBox(height: 10.h),
+            
+                MenuGrid(),
+            
+                Divider(color: Colors.grey),
+            
+                Row(
+                  children: List.generate(
+                    tabs.length,
+                    (index) => Padding(
+                      padding: EdgeInsets.only(right: 16.w),
+                      child: CustomTab(
+                        title: tabs[index],
+                        isSelected: selectedIndex == index,
+                        onTap: () => setState(() => selectedIndex = index),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              /*
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      TextButton(
-                        onPressed: () => setState(() => selectedIndex = 0),
-                        child: Text(
-                          "Contacts",
-                          style: TextStyle(
-                            color: selectedIndex == 0
-                                ? Colors.blue
-                                : Colors.grey,
-                            fontWeight: selectedIndex == 0
-                                ? FontWeight.w900
-                                : FontWeight.normal,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                      ),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        // Smooth transition
-                        margin: const EdgeInsets.only(top: 4),
-                        // Space between text and line
-                        height: 3,
-                        width: selectedIndex == 0 ? 100 : 0,
-                        // Line grows/shrinks
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 15), // Space between buttons
-                  Column(
-                    children: [
-                      TextButton(
-                        onPressed: () => setState(() => selectedIndex = 1),
-                        child: Text(
-                          "Verifying",
-                          style: TextStyle(
-                            color: selectedIndex == 1
-                                ? Colors.blue
-                                : Colors.grey,
-                            fontWeight: selectedIndex == 1
-                                ? FontWeight.w900
-                                : FontWeight.normal,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                      ),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        // Smooth transition
-                        margin: const EdgeInsets.only(top: 4),
-                        // Space between text and line
-                        height: 3,
-                        width: selectedIndex == 1 ? 100 : 0,
-                        // Line grows/shrinks
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-*/
-              // Optional horizontal line
-              // 3. The Content Area
-              SizedBox(height: 10),
 
-              SizedBox(
-                width: double.infinity,
-                child: selectedIndex == 0
-                    ? ContactList(contacts: contacts)
-                    : Text("Bangladesh"),
-              ),
-            ],
+                // Optional horizontal line
+                // 3. The Content Area
+                SizedBox(height: 10),
+            
+                SizedBox(
+                  width: double.infinity,
+                  child: selectedIndex == 0
+                      ? ContactList(contacts: contacts)
+                      : Text("Bangladesh"),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -217,7 +148,7 @@ class VisitingCard extends StatelessWidget {
         SizedBox(width: 20.w),
         Container(
           padding: EdgeInsets.all(6.r),
-          decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+          decoration: BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
           child: FaIcon(size: 30.h, FontAwesomeIcons.ellipsis),
         ),
       ],
@@ -402,10 +333,10 @@ class ContactList extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: contacts.length,
+      itemCount: 5, //contacts.length,
       separatorBuilder: (_, __) => const Divider(),
       itemBuilder: (_, index) {
-        return VisitingCard(contact: contacts[index]);
+        return VisitingCard(contact: contacts[0]);
       },
     );
   }

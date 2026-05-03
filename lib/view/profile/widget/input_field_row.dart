@@ -12,11 +12,12 @@ class InputFieldRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 80.h,
+      height: 65.h,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppColors.black.withValues(alpha: .55), size: 45.h),
+          Icon(icon, color: AppColors.black.withValues(alpha: .45), size: 45.h),
           SizedBox(width: 20.w),
           Expanded(child: child),
         ],

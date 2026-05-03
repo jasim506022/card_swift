@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/*
 class UserModel {
   String? name;
   String? email;
@@ -63,3 +64,6 @@ class UserModel {
     );
   }
 }
+
+
+ */

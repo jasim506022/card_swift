@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../style/app_colors.dart';
+import '../style/app_function.dart';
 import '../style/app_string.dart';
 import 'outline_button.dart';
 
@@ -46,7 +47,8 @@ class AppAlertDialog extends StatelessWidget {
     return Row(
       children: [
         Text(title),
-        SizedBox(width: 20.w),
+        // SizedBox(width: 20.w),
+        AppFunction.horizontalSpacing(20),
         Container(
           padding: EdgeInsets.all(5.r),
           decoration: BoxDecoration(color: iconColor, shape: BoxShape.circle),
@@ -74,5 +76,3 @@ class AppAlertDialog extends StatelessWidget {
     ];
   }
 }
-
-

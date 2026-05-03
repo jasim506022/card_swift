@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../common/style/app_function.dart';
 import '../../../common/style/app_string.dart';
 import '../../../common/style/app_text_style.dart';
 import '../../../controller/onboarding_controller.dart';
@@ -37,7 +38,8 @@ class OnboardingWidget extends GetView<OnboardingController> {
                 style: AppTextStyle.title,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 15.h),
+
+              AppFunction.verticalSpacing(15),
               Text(
                 onboardingModel.description,
                 textAlign: TextAlign.center,
