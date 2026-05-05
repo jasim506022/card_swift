@@ -1,5 +1,5 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:card_swift/add_contract/add_contact.dart';
+import 'package:card_swift/view/add_contact/add_contact.dart';
 import 'package:card_swift/add_contract/example/pages/contacts_page.dart';
 import 'package:card_swift/add_contract/home.dart';
 import 'package:card_swift/add_contract/scan_page.dart';

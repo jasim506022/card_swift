@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../common/style/app_assets.dart';
-import '../controller/upload_controller.dart';
-import '../model/contact_model.dart';
+import '../../../common/style/app_assets.dart';
+import '../../../controller/upload_controller.dart';
+import '../../../model/contact_model.dart';
 
 class ImageSelectWidget extends StatelessWidget {
   const ImageSelectWidget({super.key, required this.contactModel});
@@ -15,20 +16,22 @@ class ImageSelectWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final UploadController uploadController = Get.find<UploadController>();
     return InkWell(
-      onTap: uploadController.uploadImageFromCamera,
+      onTap: () {
+        uploadController.pickImage(ImageSource.gallery);
+      },
       child: Row(
         children: [
           Obx(
             () {
               // 1. Jodi notun kono chobi select kora hoy (File)
-              if (uploadController.selectPhoto.value != null) {
+              if (uploadController.selectedPhoto.value != null) {
                 return CircleAvatar(
                   radius: 37.r, // Slightly larger than the inner one
                   backgroundColor: Colors.blue, // This acts as the border color
                   child: CircleAvatar(
                     radius: 35.r,
                     backgroundImage: FileImage(
-                      uploadController.selectPhoto.value!,
+                      uploadController.selectedPhoto.value!,
                     ),
                   ),
                 );

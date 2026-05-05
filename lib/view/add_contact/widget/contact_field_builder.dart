@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 
-import '../../common/style/app_validator.dart';
-import '../../common/widget/custom_text_form_field.dart';
-import '../dynamic_field_widget.dart';
-import '../field_config.dart';
-import 'contact_form_controller.dart';
+import '../../../common/style/app_validator.dart';
+import '../../../common/widget/custom_text_form_field.dart';
+import 'dynamic_field_widget.dart';
+import '../../../model/field_config.dart';
+import '../../../controller/contact_form_controller.dart';
 
 class ContactFieldBuilder extends StatelessWidget {
   final FieldConfig field;
@@ -22,8 +21,7 @@ class ContactFieldBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (field.fieldType) {
-
-    /// 🔹 MOBILE
+      /// 🔹 MOBILE
       case FieldType.mobile:
         return DynamicFieldWidget(
           title: field.hint,
@@ -33,7 +31,7 @@ class ContactFieldBuilder extends StatelessWidget {
           keyboard: TextInputType.phone,
         );
 
-    /// 🔹 PHONE
+      /// 🔹 PHONE
       case FieldType.phone:
         return DynamicFieldWidget(
           title: field.hint,
@@ -43,7 +41,7 @@ class ContactFieldBuilder extends StatelessWidget {
           keyboard: TextInputType.phone,
         );
 
-    /// 🔹 EMAIL
+      /// 🔹 EMAIL
       case FieldType.email:
         return DynamicFieldWidget(
           title: field.hint,
@@ -53,7 +51,7 @@ class ContactFieldBuilder extends StatelessWidget {
           keyboard: TextInputType.emailAddress,
         );
 
-    /// 🔹 NORMAL FIELD
+      /// 🔹 NORMAL FIELD
       default:
         return CustomTextFormField(
           hintText: field.hint,
@@ -65,4 +63,3 @@ class ContactFieldBuilder extends StatelessWidget {
     }
   }
 }
-

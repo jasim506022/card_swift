@@ -4,23 +4,20 @@ import 'package:card_swift/common/style/apps_constant.dart';
 import 'package:card_swift/service/base_upload_document.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
-class UploadDocument implements BaseUploadDocument {
+class CloudinaryUploader implements BaseCloudinaryUploader {
   @override
   Future<String?> uploadImage(String path) async {
     try {
-      final mineType = lookupMimeType(path)?.split('/'); //file.path
-
+      final mineType = lookupMimeType(path)?.split('/');
       final uploadUrl = Uri.parse(AppsConstant.cloudinaryBaseUrl);
-
       var request = http.MultipartRequest("POST", uploadUrl)
         ..fields[AppsConstant.uploadPreset] = AppsConstant.uploadTest
         ..files.add(
           await http.MultipartFile.fromPath(
             "file",
-            path, // file.path
+            path,
             contentType: mineType != null
                 ? http.MediaType(mineType[0], mineType[1])
                 : null,

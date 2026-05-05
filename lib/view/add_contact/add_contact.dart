@@ -1,13 +1,13 @@
-import 'package:card_swift/controller/upload_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../model/contact_model.dart';
-import 'example/contact_field_builder.dart';
-import 'example/contact_form_controller.dart';
-import 'field_config.dart';
-import 'image_select_widget.dart';
+import '../../controller/upload_controller.dart';
+import '../../model/contact_model.dart';
+import 'widget/contact_field_builder.dart';
+import '../../controller/contact_form_controller.dart';
+import '../../model/field_config.dart';
+import 'widget/image_select_widget.dart';
 
 class AddContact extends StatefulWidget {
   const AddContact({super.key, required this.contactModel});
@@ -33,7 +33,7 @@ class _AddContactState extends State<AddContact> {
     };
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      formController.initData(widget.contactModel);
+      formController.initData(widget.contactModel, controllers);
     });
   }
 
@@ -41,7 +41,11 @@ class _AddContactState extends State<AddContact> {
 
   void _onSave() {
     if (_formKey.currentState!.validate()) {
-      uploadController.saveData(controllers, formController);
+      uploadController.saveContact(
+        controllers,
+        formController,
+        widget.contactModel.image!,
+      );
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
+/*
 class CloudinaryService {
   static const String cloudName = "dhugcawup";
   static const String uploadPreset = "upload-test";
@@ -44,4 +45,9 @@ class CloudinaryService {
 
     return null;
   }
+
+
 }
+
+
+ */

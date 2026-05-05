@@ -2,21 +2,33 @@ import 'package:card_swift/common/style/apps_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../model/contact_model.dart';
+import '../model/contact_model.dart';
 
 class ContactFormController extends GetxController {
-  var mobileControllers = <TextEditingController>[].obs;
-  var phoneControllers = <TextEditingController>[].obs;
-  var emailControllers = <TextEditingController>[].obs;
+  final mobileControllers = <TextEditingController>[].obs;
+  final phoneControllers = <TextEditingController>[].obs;
+  final emailControllers = <TextEditingController>[].obs;
 
-  void initData(ContactModel contact) {
+  /// 🔹 Init ALL data (text + list)
+  void initData(
+    ContactModel contact,
+    Map<String, TextEditingController> controllers,
+  ) {
     final map = contact.toMap();
 
+    /*
     /// Clear old data first
     mobileControllers.clear();
     phoneControllers.clear();
     emailControllers.clear();
 
+
+     */
+
+    /// 1️⃣ Clear old list data
+    _clearLists();
+
+    /*
     /// Fill data
     for (var entry in AppsConstant.modelKeyMap.entries) {
       final key = entry.value;
@@ -32,6 +44,13 @@ class ContactFormController extends GetxController {
       }
     }
 
+
+     */
+
+    /// 2️⃣ Fill TEXT fields
+    _fillTextFields(map, controllers);
+
+    /*
     /// ensure at least one field
     if (mobileControllers.isEmpty) {
       mobileControllers.add(TextEditingController());
@@ -43,7 +62,38 @@ class ContactFormController extends GetxController {
       emailControllers.add(TextEditingController());
     }
 
+     */
+
+    /// 3️⃣ Fill LIST fields
+    _fillListFields(map);
+
+    /// 4️⃣ Ensure at least one input exists
+    _ensureAtLeastOne();
+
     update(); // 🔥 IMPORTANT
+  }
+
+  // ================= LIST =================
+  void _fillListFields(Map<String, dynamic> map) {
+    for (var entry in AppsConstant.modelKeyMap.entries) {
+      final key = entry.value;
+      final value = map[key];
+
+      if (value is List) {
+        for (var item in value) {
+          final text = item.toString().trim();
+          if (text.isNotEmpty) {
+            _add(entry.key, text);
+          }
+        }
+      }
+    }
+  }
+
+  void _ensureAtLeastOne() {
+    if (mobileControllers.isEmpty) addMobile();
+    if (phoneControllers.isEmpty) addPhone();
+    if (emailControllers.isEmpty) addEmail();
   }
 
   /// ================= ADD =================
@@ -77,5 +127,33 @@ class ContactFormController extends GetxController {
     } else if (type == "Email Address") {
       emailControllers.add(TextEditingController()..text = value);
     }
+  }
+
+  // ================= TEXT =================
+  void _fillTextFields(
+    Map<String, dynamic> map,
+    Map<String, TextEditingController> controllers,
+  ) {
+    for (var entry in AppsConstant.modelKeyMap.entries) {
+      final key = entry.value;
+      final value = map[key];
+
+      if (value is String && controllers.containsKey(entry.key)) {
+        controllers[entry.key]!.text = value;
+      }
+    }
+  }
+
+  void _clearLists() {
+    for (var c in [
+      ...mobileControllers,
+      ...phoneControllers,
+      ...emailControllers,
+    ]) {
+      c.dispose();
+    }
+    mobileControllers.clear();
+    phoneControllers.clear();
+    emailControllers.clear();
   }
 }

@@ -1,29 +1,23 @@
-import 'dart:io';
-
-import 'package:card_swift/add_contract/add_contact.dart';
-import 'package:card_swift/common/style/app_colors.dart';
-import 'package:card_swift/common/style/app_string.dart';
-import 'package:card_swift/model/contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
+import '../../add_contact/add_contact.dart';
+import '../../../common/style/app_colors.dart';
+import '../../../common/style/app_string.dart';
 import '../../../common/style/app_text_style.dart';
+import '../../../common/style/apps_constant.dart';
+import '../../../model/contact_model.dart';
 
-class HeadingWidget extends StatefulWidget {
+class HeadingWidget extends StatelessWidget {
   const HeadingWidget({super.key, required this.contactModel});
 
   final ContactModel contactModel;
 
-  @override
-  State<HeadingWidget> createState() => _HeadingWidgetState();
-}
-
-class _HeadingWidgetState extends State<HeadingWidget> {
-  File? fileImage;
-
-  String image =
-      "https://img.freepik.com/premium-photo/corporate-portrait-proud-with-business-man-office-start-professional-career-as-intern-company-confident-suit-with-smile-formal-employee-workplace-administration_590464-381909.jpg?semt=ais_hybrid&w=740&q=80";
-  final ImagePicker _picker = ImagePicker();
+  void _goToEdit(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => AddContact(contactModel: contactModel)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +33,23 @@ class _HeadingWidgetState extends State<HeadingWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                editableTextRow(
-                  title: widget.contactModel.firstName ?? AppString.profileName,
+                _editableTextRow(
+                  context: context,
+                  title:
+                      "${contactModel.firstName}${contactModel.lastName ?? ""}",
                 ),
                 Column(
                   children: [
-                    editableTextRow(
-                      title:
-                          widget.contactModel.jobTitle ??
-                          AppString.appDesignation,
+                    _editableTextRow(
+                      context: context,
+                      title: contactModel.jobTitle ?? AppString.appDesignation,
                       textStyle: AppTextStyle.bodyTitle.copyWith(
                         color: AppColors.yellow,
                       ),
                     ),
-                    editableTextRow(
-                      title: AppString.companyName,
+                    _editableTextRow(
+                      context: context,
+                      title: contactModel.jobTitle ?? AppString.companyName,
                       textStyle: AppTextStyle.mediumNormal,
                     ),
                   ],
@@ -61,53 +57,38 @@ class _HeadingWidgetState extends State<HeadingWidget> {
               ],
             ),
           ),
-
-          buildImage(),
+          buildImage(context),
         ],
       ),
     );
   }
 
-  Row editableTextRow({required String title, TextStyle? textStyle}) {
+  Row _editableTextRow({
+    required String title,
+    required BuildContext context,
+    TextStyle? textStyle,
+  }) {
     return Row(
       children: [
-        Text(title, style: textStyle ?? AppTextStyle.subSmallTitle),
-        SizedBox(width: 8.w),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddContact(contactModel: widget.contactModel,)),
-            );
-          },
-          child: Icon(Icons.edit),
+        Text(
+          title,
+          style: textStyle ?? AppTextStyle.subSmallTitle,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
+        SizedBox(width: 8.w),
+        InkWell(onTap: () => _goToEdit(context), child: Icon(Icons.edit)),
       ],
     );
   }
 
-  Future<File?> getImageFromDevice() async {
-    // source can be ImageSource.gallery or ImageSource.camera
-
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery,
-    );
-
-    if (pickedFile != null) {
-      return File(pickedFile.path);
-    }
-    return null;
-  }
-
-  Container buildImage() {
+  Container buildImage(BuildContext context) {
     return Container(
       height: 140.h,
       width: 100.h,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: fileImage != null
-              ? FileImage(fileImage!)
-              : NetworkImage(widget.contactModel.image!) as ImageProvider,
+          image: NetworkImage(contactModel.image ?? AppsConstant.image),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(15.r),
@@ -117,11 +98,7 @@ class _HeadingWidgetState extends State<HeadingWidget> {
           Positioned(
             bottom: 0,
             child: InkWell(
-              onTap: () async {
-                // print("Image");
-                fileImage = await getImageFromDevice();
-                setState(() {});
-              },
+              onTap: () => _goToEdit(context),
               child: Container(
                 height: 40.h,
                 width: 100.h,
@@ -148,6 +125,3 @@ class _HeadingWidgetState extends State<HeadingWidget> {
     );
   }
 }
-
-// Cleaner way to say "full width"
-// Use MediaQuery if .sh is failing

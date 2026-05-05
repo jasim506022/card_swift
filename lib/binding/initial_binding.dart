@@ -1,6 +1,6 @@
 import 'package:card_swift/controller/onboarding_controller.dart';
 import 'package:card_swift/controller/upload_controller.dart';
-import 'package:card_swift/repository/upload_document_repository.dart';
+import 'package:card_swift/repository/cloudinary_uploader_repository.dart';
 import 'package:get/get.dart';
 
 import '../controller/auth_controller.dart';
@@ -20,14 +20,14 @@ class InitialBinding extends Bindings {
 
     Get.lazyPut<SplashRepository>(() => SplashRepository());
 
-    Get.lazyPut<UploadDocumentRepository>(() => UploadDocumentRepository());
+    Get.lazyPut<CloudinaryUploaderRepository>(() => CloudinaryUploaderRepository());
 
     Get.lazyPut<SplashController>(
       () => SplashController(repository: Get.find<SplashRepository>()),
     );
 
     Get.lazyPut<UploadController>(
-      () => UploadController(repository: Get.find<UploadDocumentRepository>()),
+      () => UploadController(repository: Get.find<CloudinaryUploaderRepository>()),
     );
 
     Get.lazyPut<OnboardingController>(() => OnboardingController());

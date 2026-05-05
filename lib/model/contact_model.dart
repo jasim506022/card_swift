@@ -87,7 +87,7 @@ class ContactModel {
       website: map['website'],
       facebook: map['facebook'],
       createdAt: map['createdAt'],
-      uid: map['uid']
+      uid: map['uid'],
     );
   }
 

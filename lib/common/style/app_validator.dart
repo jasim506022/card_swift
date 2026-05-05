@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../add_contract/field_config.dart';
+import '../../model/field_config.dart';
 import 'app_string.dart';
 
 class AppValidator {

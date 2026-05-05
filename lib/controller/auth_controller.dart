@@ -1,4 +1,5 @@
 import 'package:card_swift/model/contact_model.dart';
+import 'package:card_swift/repository/firebase_upload_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ import '../route/route_name.dart';
 /// Handles Email/Password, Google Sign-In, Password Reset, and Sign-Out
 class AuthController extends GetxController {
   final AuthRepository _repository;
+
+  FirebaseUploadRepository firebaseUploadRepository =
+      FirebaseUploadRepository();
 
   /// Reactive loading state
   final RxBool isLoading = false.obs;
@@ -43,9 +47,16 @@ class AuthController extends GetxController {
       );
 
       if (user != null) {
-        var contactModel = _createUserModel(user: user, name: name, email: email);
+        var contactModel = _createUserModel(
+          user: user,
+          name: name,
+          email: email,
+        );
 
-        await _repository.saveProfile(contactModel: contactModel, uid: user.uid);
+        await _repository.saveProfile(
+          contactModel: contactModel,
+          uid: user.uid,
+        );
         _navigateToMainPage(
           message: AppString.signUpSuccessfulToast,
           uid: user.uid,
@@ -179,6 +190,10 @@ class AuthController extends GetxController {
     }
     AppFunction.flutterToast(msg: message);
     Get.offNamed(routeName ?? RouteName.homePage);
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserProfile() async {
+    return firebaseUploadRepository.getUserProfile();
   }
 
   /// Displays a loading dialog.

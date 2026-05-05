@@ -1,18 +1,16 @@
-import 'package:card_swift/common/style/app_colors.dart';
-import 'package:card_swift/common/style/app_string.dart';
-import 'package:card_swift/common/style/app_text_style.dart';
-import 'package:card_swift/common/style/apps_constant.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:get/get.dart';
 
-import '../../common/widget/app_button.dart';
+import '../../common/style/app_string.dart';
+import '../../common/style/app_text_style.dart';
 import '../../common/widget/custom_text_form_field.dart';
+import '../../controller/auth_controller.dart';
 import '../../model/contact_model.dart';
-import 'widget/custom_phone_number_field.dart';
+import 'widget/camera_card.dart';
+import 'widget/contact_input.dart';
 import 'widget/heading_widget.dart';
-import 'widget/input_field_row.dart';
+import 'widget/profile_actions_group.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -23,21 +21,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final businessController = TextEditingController();
-  final emailController = TextEditingController();
-  final altEmailController = TextEditingController();
-  final phoneController = TextEditingController();
 
-  String initialCountry = 'BD';
-  PhoneNumber number = PhoneNumber(isoCode: 'BD');
-
-  var data = FirebaseFirestore.instance
-      .collection("users")
-      .doc(
-        AppsConstant.sharedPreferences!.getString(
-          AppString.uidSharedPreference,
-        ),
-      )
-      .get();
+  AuthController authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,27 +30,17 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: FutureBuilder(
-          future: data,
+          future: authController.getUserProfile(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print(
-                AppsConstant.sharedPreferences!.getString(
-                  AppString.uidSharedPreference,
-                ),
-              );
-
-              print(snapshot.data!.data());
-
-              final snapshotData = snapshot.data; // এটি একটি DocumentSnapshot
+              final snapshotData = snapshot.data;
               final Map<String, dynamic> data =
                   snapshotData!.data() as Map<String, dynamic>;
 
-              // এখন আপনি আপনার মডেলে ডাটা নিতে পারবেন
               ContactModel contact = ContactModel.fromMap(data);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Reusable Profile Header
                   HeadingWidget(contactModel: contact),
                   Expanded(
                     child: SingleChildScrollView(
@@ -77,14 +52,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildHeaderButtons(),
-
+                            ProfileActionsGroup(),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 20.h),
-                              child: _buildContactInputs(),
+                              child: ContactInput(contactModel: contact),
                             ),
 
-                            _buildCameraCard(),
+                            CameraCard(),
                             SizedBox(height: 15.h),
                             _buildBusinessDescription(),
                           ],
@@ -100,90 +74,6 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
       ),
-    );
-  }
-
-  // Header Buttons Row
-  Row _buildHeaderButtons() {
-    return Row(
-      children: [
-        Expanded(
-          child: AppButton(
-            onTap: () {},
-            title: AppString.myQRCode,
-            bgColor: Colors.white,
-            textColor: Colors.blue,
-          ),
-        ),
-        SizedBox(width: 15.w),
-        Expanded(
-          child: AppButton(
-            onTap: () {},
-            title: AppString.share,
-            bgColor: Colors.blue,
-            textColor: Colors.white,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Contact Inputs Section
-  Column _buildContactInputs() {
-    return Column(
-      children: [
-        InputFieldRow(
-          icon: Icons.email_outlined,
-          child: CustomTextFormField(
-            hintText: AppString.enterYourEmailHint,
-            controller: emailController,
-          ),
-        ),
-        InputFieldRow(
-          icon: Icons.email_outlined,
-          child: CustomTextFormField(
-            hintText: AppString.alternativeEmailHint,
-            controller: altEmailController,
-          ),
-        ),
-        InputFieldRow(
-          icon: Icons.phone_android_outlined,
-          child: CustomPhoneNumberField(
-            number: number,
-            phoneController: phoneController,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Camera Card Section
-  Widget _buildCameraCard() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppString.capturePersonalBusinessCard,
-          style: AppTextStyle.bodyTitle,
-        ),
-        SizedBox(height: 10.h),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 23.w, vertical: 25.h),
-          decoration: BoxDecoration(
-            color: Colors.black54,
-            borderRadius: BorderRadius.circular(5.r),
-          ),
-          child: Column(
-            children: [
-              Icon(Icons.camera_alt, color: Colors.white, size: 35.h),
-              Text(
-                AppString.newCard,
-                style: AppTextStyle.textBold.copyWith(color: AppColors.white),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -204,3 +94,42 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+/*
+  // Contact Inputs Section
+  Column _buildContactInputs(ContactModel contact) {
+    return Column(
+      children: [
+        /// ১. ইমেইল লিস্ট হ্যান্ডলিং (যদি ইমেইল লিস্ট হয়)
+        if (contact.email != null && contact.email!.isNotEmpty)
+          ...contact.email!.map((email) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: InputFieldRow(
+                icon: Icons.email_outlined,
+                // child: _buildDisplayContainer(email),
+                text: email,
+              ),
+            );
+          })
+        else
+          // যদি লিস্ট না থাকে বা খালি থাকে তবে একটি ডিফল্ট মেসেজ
+          InputFieldRow(icon: Icons.email_outlined, text: "No email available"),
+
+        /// ১. ইমেইল লিস্ট হ্যান্ডলিং (যদি ইমেইল লিস্ট হয়)
+        if (contact.mobileNumbers != null && contact.mobileNumbers!.isNotEmpty)
+          ...contact.mobileNumbers!.map((mobileNumber) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: InputFieldRow(icon: Icons.phone, text: mobileNumber),
+            );
+          })
+        else
+          // যদি লিস্ট না থাকে বা খালি থাকে তবে একটি ডিফল্ট মেসেজ
+          InputFieldRow(icon: Icons.phone, text: "No email available"),
+      ],
+    );
+  }
+
+
+   */
