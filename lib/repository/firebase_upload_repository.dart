@@ -13,4 +13,12 @@ class FirebaseUploadRepository {
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserProfile() async {
     return firebaseUpload.getUserProfile();
   }
+
+  Future<void> postCard({required ContactModel contact}) async {
+    firebaseUpload.postCard(contact: contact);
+  }
+
+  Stream<List<Map<String, dynamic>>> getAllCardsStream() {
+    return firebaseUpload.getAllCardsStream();
+  }
 }

@@ -15,7 +15,10 @@ class HeadingWidget extends StatelessWidget {
   void _goToEdit(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => AddContact(contactModel: contactModel)),
+      MaterialPageRoute(
+        builder: (_) =>
+            AddContact(contactModel: contactModel, isProfileUpdate: true),
+      ),
     );
   }
 

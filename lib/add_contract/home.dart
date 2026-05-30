@@ -1,6 +1,9 @@
 import 'package:card_swift/common/style/app_colors.dart';
 import 'package:card_swift/common/style/app_text_style.dart';
 import 'package:card_swift/common/widget/custom_text_form_field.dart';
+import 'package:card_swift/model/contact_model.dart';
+import 'package:card_swift/view/main/view_card_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/auth_controller.dart';
+import '../controller/card_list_controller.dart';
+import '../view/add_contact/add_contact.dart';
 
 class HomeViewPage extends StatefulWidget {
   const HomeViewPage({super.key});
@@ -47,11 +52,11 @@ class _HomeViewPageState extends State<HomeViewPage>
                   controller: textEditingController,
                 ),
                 SizedBox(height: 10.h),
-            
+
                 MenuGrid(),
-            
+
                 Divider(color: Colors.grey),
-            
+
                 Row(
                   children: List.generate(
                     tabs.length,
@@ -69,11 +74,11 @@ class _HomeViewPageState extends State<HomeViewPage>
                 // Optional horizontal line
                 // 3. The Content Area
                 SizedBox(height: 10),
-            
+
                 SizedBox(
                   width: double.infinity,
                   child: selectedIndex == 0
-                      ? ContactList(contacts: contacts)
+                      ? ContactList()
                       : Text("Bangladesh"),
                 ),
               ],
@@ -92,24 +97,35 @@ class VisitingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildVisitImage(),
-        SizedBox(width: 15.w),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _topRow(),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Text("30st Jan 26, 12:54Pm", style: AppTextStyle.small),
-              ),
-            ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => ViewCardPage(contactModel: contact)),
+        );
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildVisitImage(),
+          SizedBox(width: 15.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _topRow(),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    formatTimestamp(contact.createdAt),
+                    style: AppTextStyle.small,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -123,20 +139,20 @@ class VisitingCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Md Jasim Uddin",
+                contact.firstName! + contact.lastName!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyle.bodyTitle,
               ),
               SizedBox(height: 5.h),
               Text(
-                "Professor | Dep odfadfaffv",
+                "${contact.jobTitle} | ${contact.description}",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyle.body,
               ),
               Text(
-                "University Internation",
+                contact.companyName!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyle.body,
@@ -148,7 +164,10 @@ class VisitingCard extends StatelessWidget {
         SizedBox(width: 20.w),
         Container(
           padding: EdgeInsets.all(6.r),
-          decoration: BoxDecoration(color: Colors.grey[200], shape: BoxShape.circle),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            shape: BoxShape.circle,
+          ),
           child: FaIcon(size: 30.h, FontAwesomeIcons.ellipsis),
         ),
       ],
@@ -160,7 +179,9 @@ class VisitingCard extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdqpdEN5cM_sGSv0B0W5vFfCroA3d-x-mPZg&s",
+            contact.image == ""
+                ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdqpdEN5cM_sGSv0B0W5vFfCroA3d-x-mPZg&s"
+                : contact.image!,
           ),
           fit: BoxFit.cover,
         ),
@@ -296,48 +317,109 @@ final List<MenuItem> menuItems = [
   MenuItem(icon: Icons.dashboard, color: Colors.green, title: "CRM"),
 ];
 
-class ContactModel {
-  final String name;
-  final String role;
-  final String university;
-  final String imageUrl;
-  final String date;
-
-  const ContactModel({
-    required this.name,
-    required this.role,
-    required this.university,
-    required this.imageUrl,
-    required this.date,
-  });
-}
-
-final List<ContactModel> contacts = [
-  ContactModel(
-    name: "Md Jasim Uddin",
-    role: "Professor | Dep odfadfaffv",
-    university: "University International",
-    imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdqpdEN5cM_sGSv0B0W5vFfCroA3d-x-mPZg&s",
-    date: "30 Jan 26, 12:54 PM",
-  ),
-];
-
 class ContactList extends StatelessWidget {
-  final List<ContactModel> contacts;
+  // final List<ContactModel>? contacts;
 
-  const ContactList({super.key, required this.contacts});
+  const ContactList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 5, //contacts.length,
-      separatorBuilder: (_, __) => const Divider(),
-      itemBuilder: (_, index) {
-        return VisitingCard(contact: contacts[0]);
-      },
-    );
+    final controller = Get.put(CardListController());
+
+    return Obx(() {
+      if (controller.isListLoading.value && controller.allCards.isEmpty) {
+        return const Center(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+
+      // ২. যদি ডাটাবেজ একদম খালি থাকে
+      if (controller.allCards.isEmpty) {
+        return const Center(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text("No business cards saved yet."),
+          ),
+        );
+      }
+
+      // ৩. লাইভ ডাটা থাকলে এই লিস্টটি বিল্ড হবে
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: controller.allCards.length,
+        // এখানে ডাইনামিক কাউন্ট হবে
+        separatorBuilder: (_, __) => const Divider(),
+        itemBuilder: (_, index) {
+          // রিয়েল-টাইম লিস্ট থেকে নির্দিষ্ট কার্ডের মডেলটি নেওয়া হচ্ছে
+          final cardModel = controller.allCards[index];
+
+          // আপনার VisitingCard যদি ContactModel এক্সপেক্ট করে,
+          // তবে কার্ড মডেলটিকে এভাবে পাস করতে পারেন (অথবা টাইপ কনভার্ট করে)
+          return VisitingCard(contact: cardModel);
+        },
+      );
+    });
   }
+}
+
+String formatTimestamp(Timestamp? timestamp) {
+  if (timestamp == null) return "";
+
+  // ১. Timestamp থেকে DateTime অবজেক্ট তৈরি
+  DateTime date = timestamp.toDate();
+
+  // ২. মাসের সংক্ষিপ্ত রূপ বের করা (Manual Array)
+  List<String> months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  String monthStr = months[date.month - 1];
+
+  // ৩. তারিখের সাফিক্স (st, nd, rd, th) বের করার লজিক
+  String suffix = "th";
+  int day = date.day;
+  if (day >= 11 && day <= 13) {
+    suffix = "th";
+  } else {
+    switch (day % 10) {
+      case 1:
+        suffix = "st";
+        break;
+      case 2:
+        suffix = "nd";
+        break;
+      case 3:
+        suffix = "rd";
+        break;
+    }
+  }
+
+  // ৪. ১২ ঘণ্টার ফরম্যাটে আওয়ার এবং Pm/Am বের করা
+  int hour = date.hour % 12;
+  if (hour == 0) hour = 12; // ১২টা বাজলে ০ এর জায়গায় ১২ দেখাবে
+  String minuteStr = date.minute.toString().padLeft(
+    2,
+    '0',
+  ); // মিনিট সিঙ্গেল ডিজিট হলে বামে ০ বসবে
+  String period = date.hour >= 12 ? "Pm" : "Am";
+
+  // ৫. বছরের শেষ ২ ডিজিট নেওয়া (যেমন: 2026 থেকে 26)
+  String yearStr = date.year.toString().substring(2);
+
+  // সবশেষে আপনার ফরম্যাট অনুযায়ী জোড়া দেওয়া
+  return "$day$suffix $monthStr $yearStr, $hour:$minuteStr$period";
 }

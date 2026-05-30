@@ -37,13 +37,11 @@ class SplashController extends GetxController {
       });
 
   String _resolveRoute(User? user) {
-    if (user != null) return RouteName.homePage;
-
-    if (AppsConstant.isViewed) {
-      return RouteName.signPage;
+    if (user != null) {
+      return RouteName.homePage;
     }
 
-    return RouteName.onboarding;
+    return AppsConstant.isViewed ? RouteName.signPage : RouteName.onboarding;
   }
 
   void _configureUi() =>

@@ -1,35 +1,30 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:card_swift/view/add_contact/add_contact.dart';
-import 'package:card_swift/add_contract/example/pages/contacts_page.dart';
+import 'package:card_swift/route/route_name.dart';
 import 'package:card_swift/add_contract/home.dart';
-import 'package:card_swift/add_contract/scan_page.dart';
-import 'package:card_swift/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import '../view/profile/profile_view.dart';
+import '../profile/profile_view.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainPageState extends State<MainPage> {
   final iconList = <IconData>[
-    Icons.brightness_5,
-    Icons.brightness_4,
-    Icons.brightness_6,
-    Icons.brightness_7,
+    Icons.home,
+    Icons.add_card_rounded,
+    Icons.note_alt,
+    Icons.chat,
   ];
-
-  final labels = ["Home", "Search", "Settings", "Profile"];
 
   final List<Widget> _screens = [
     ProfilePage(),
     HomeViewPage(),
-    // AddContact(),
     Center(child: Text("Profile Screen")),
     Center(child: Text("Profile Screen")),
   ];
@@ -38,8 +33,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.height);
-    print(MediaQuery.of(context).size.width);
     return Scaffold(
       body: _screens[_bottomNavIndex],
 
@@ -49,10 +42,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         shape: const CircleBorder(),
         child: Icon(Icons.camera_alt, size: 40.h, color: Colors.grey),
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => CardScannerScreen()),
-        ),
+        onPressed: () => Get.toNamed(RouteName.scanPage),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
@@ -69,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           itemCount: iconList.length,
           tabBuilder: (int index, bool isActive) {
             final color = isActive ? Colors.blue : Colors.grey;
-            final labels = ["Home", "Search", "Settings", "Profile"];
+            final labels = ["Home", "Holder", "Notes", "Chat"];
 
             return Column(
               mainAxisSize: MainAxisSize.min,

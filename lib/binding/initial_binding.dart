@@ -27,7 +27,7 @@ class InitialBinding extends Bindings {
     );
 
     Get.lazyPut<UploadController>(
-      () => UploadController(repository: Get.find<CloudinaryUploaderRepository>()),
+      () => UploadController(),
     );
 
     Get.lazyPut<OnboardingController>(() => OnboardingController());

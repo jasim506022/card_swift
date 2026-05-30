@@ -1,47 +1,36 @@
 import 'dart:io';
 import 'package:get/get.dart';
-import '../services/ocr_service.dart';
+
+import '../../../model/business_card_model.dart';
+import '../../../service/card_parse_service.dart';
 
 class OcrController extends GetxController {
-  final OcrService _ocr = OcrService();
+  final BusinessCardService _service = BusinessCardService();
 
-  /// Raw OCR text
-  final RxString rawText = ''.obs;
 
-  /// Parsed fields as String (for UI)
-  final RxMap<String, String?> fields = <String, String?>{}.obs;
+  final RxBool isLoading = false.obs;
 
-  /// Loading state
-  final RxBool isProcessing = false.obs;
+  final Rx<BusinessCardModel?> card = Rx<BusinessCardModel?>(null);
 
-  /// Run OCR on image and parse fields
-  Future<void> run(File imageFile) async {
-    isProcessing.value = true;
+  Future<void> scan(File image) async {
+    isLoading.value = true;
+
     try {
-      final text = await _ocr.extractRawText(imageFile);
-      rawText.value = text;
+      final result = await _service.scanCard(image);
 
-      final parsed = _ocr.parseFields(text);
-
-      // Convert all values to String (Lists join with comma)
-      fields.assignAll({
-        'name': parsed['name'] as String?,
-        'position': parsed['position'] as String?,
-        'company': parsed['company'] as String?,
-        'phones': (parsed['phones'] as List<String>?)?.join(', '),
-        'emails': (parsed['emails'] as List<String>?)?.join(', '),
-        'websites': (parsed['websites'] as List<String>?)?.join(', '),
-        'address': parsed['address'] as String?,
-      });
-
+      card.value = result;
     } finally {
-      isProcessing.value = false;
+      isLoading.value = false;
     }
+  }
+
+  void clearCardData() {
+    card.value = null;
   }
 
   @override
   void onClose() {
-    _ocr.dispose();
+    _service.dispose();
     super.onClose();
   }
 }

@@ -11,7 +11,7 @@ class AppValidator {
   static final RegExp _emailPattern = RegExp(
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
-  static final RegExp _namePattern = RegExp(r'^[a-zA-Z\s]+$');
+  static final RegExp _namePattern = RegExp(r"^[a-zA-Z\s.\-()]+$");
 
   /// **Validates an email address.**
   static String? validateEmail(String? value) {
@@ -71,7 +71,7 @@ class AppValidator {
     switch (field.fieldType) {
       case FieldType.firstName:
       case FieldType.lastName:
-        if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(v!)) {
+        if (!RegExp(r"^[a-zA-Z\s.\-()]+$").hasMatch(v!)) {
           return "Only letters allowed";
         }
         if (v.length < 2) {
@@ -125,7 +125,7 @@ class AppValidator {
         break;
 
       case FieldType.website:
-        if (!RegExp(r'https?:\/\/').hasMatch(v!)) {
+        if (!RegExp(r'^(https?:\/\/)?(www\.)?([a-zA-Z0-9\-]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9\-\._\?\,\/\\\+&%\$#\=~]*)?$').hasMatch(v!)) {
           return "Invalid URL";
         }
         break;

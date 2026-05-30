@@ -25,4 +25,33 @@ class FirebaseUpload implements BaseFirebaseUpload {
     );
     return await _firestore.collection("users").doc(uid).get();
   }
+
+  @override
+  Future<void> postCard({required ContactModel contact}) async {
+    String? uid = AppsConstant.sharedPreferences!.getString(
+      AppString.uidSharedPreference,
+    );
+    await _firestore
+        .collection("users")
+        .doc(uid)
+        .collection("card")
+        .doc(contact.uid)
+        .set(contact.toMap());
+  }
+
+  @override
+  Stream<List<Map<String, dynamic>>> getAllCardsStream() {
+    String? uid = AppsConstant.sharedPreferences!.getString(
+      AppString.uidSharedPreference,
+    );
+    return _firestore
+        .collection("users")
+        .doc(uid)
+        .collection("card")
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs.map((doc) => doc.data()).toList();
+        });
+  }
 }

@@ -158,4 +158,7 @@ class AppString {
   // Buttons/UI
 
   static const String addPicture = "ADD PICTURE";
+
+  // Button
+  static const String edit = "Edit";
 }

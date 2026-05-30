@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-import 'package:http/http.dart' as http;
 
 class OcrService {
   final TextRecognizer _recognizer = TextRecognizer();
@@ -48,8 +46,6 @@ class OcrService {
 
     // Guess name: first line without email/phone/number
     String? name;
-
-
 
     final nameIgnoreKeywords = [
       'mobile',
@@ -122,7 +118,6 @@ class OcrService {
 
 
      */
-
 
     // Guess position
     String? position;
@@ -241,9 +236,6 @@ class OcrService {
       return locationKeywords.any((k) => lower.contains(k));
     }
 
-
-
-
     // Guess address
     final addressKeywords = [
       'street',
@@ -282,106 +274,3 @@ class OcrService {
     _recognizer.close();
   }
 }
-
-
-
-/*
-
-class GeminiService {
-  final String apiKey = "AIzaSyCdaT-NClGJn8T1As9tDKprfJgGbw7ai0E";
-
-
-  Future<Map<String, dynamic>> parseCard(String rawText) async {
-    final url =
-        "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=$apiKey";
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "contents": [
-          {
-            "parts": [
-              {
-                "text":
-                    """
-Extract business card info and return ONLY JSON.
-
-No explanation. Only JSON.
-
-{
-  "firstName": "",
-  "lastName": "",
-  "jobTitle": "",
-  "companyName": "",
-  "mobileNumber": "",
-  "phoneNumber": "",
-  "email": "",
-  "website": "",
-  "city": "",
-  "country": ""
-}
-
-Text:
-$rawText
-""",
-              },
-            ],
-          },
-        ],
-      }),
-    );
-
-    print("🔍 FULL RESPONSE:");
-    print(response.body);
-
-    final data = jsonDecode(response.body);
-
-    /// ❗ Check API error
-    if (data['candidates'] == null) {
-      throw Exception("❌ API Error: ${data['error']}");
-    }
-
-    final text = data['candidates'][0]['content']['parts'][0]['text'];
-
-    print("🤖 RAW TEXT:");
-    print(text);
-
-    /// ❗ Extract JSON safely
-    final cleanJson = extractJson(text);
-
-    if (cleanJson == null) {
-      throw Exception("❌ No valid JSON found from AI");
-    }
-
-    print("🧹 CLEAN JSON:");
-    print(cleanJson);
-
-    try {
-      return jsonDecode(cleanJson);
-    } catch (e) {
-      throw Exception("❌ JSON Parse Failed: $e");
-    }
-  }
-
-  String _cleanJson(String text) {
-    final start = text.indexOf('{');
-    final end = text.lastIndexOf('}');
-    return text.substring(start, end + 1);
-  }
-
-  String? extractJson(String text) {
-    try {
-      final start = text.indexOf('{');
-      final end = text.lastIndexOf('}');
-
-      if (start == -1 || end == -1) return null;
-
-      return text.substring(start, end + 1);
-    } catch (e) {
-      return null;
-    }
-  }
-}
-
-
- */

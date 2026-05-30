@@ -6,8 +6,12 @@ class AppsConstant {
 
   /// Whether the onboarding screen has been viewed.
   static bool isViewed = false;
+  static const String GEMINI_API_KEY =
+      "AIzaSyCdaT-NClGJn8T1As9tDKprfJgGbw7ai0E";
 
   static const String cloudName = "dhugcawup";
+  static const String defaultCardBackground =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdqpdEN5cM_sGSv0B0W5vFfCroA3d-x-mPZg&s";
   static const String uploadTest = "upload-test";
   static const String uploadPreset = "upload_preset";
   static const String secureUrl = "secure_url";
@@ -25,13 +29,31 @@ class AppsConstant {
     "Description": "description",
     "Street Name": "street",
     "City": "city",
-    "Mobile Number":"mobileNumbers",
+    "Mobile Number": "mobileNumbers",
     "Phone Number": "phoneNumber",
     "Email Address": "email",
     "ZIP Code": "zipCode",
     "Country": "country",
     "Whatsapp": "whatsapp",
     "Website": "website",
+    "Facebook": "facebook",
+  };
+
+  static final Map<String, String> reviewModel = const {
+    "First Name": "firstName",
+    "Last Name": "lastName",
+    "Job Title": "jobTitle",
+    "Company Name": "companyName",
+    "Description": "description",
+    "Street Name": "street",
+    "City": "city",
+    "Mobile Number": "mobileNumbers",
+    "Phone Number": "phones",
+    "Email Address": "emails",
+    "ZIP Code": "zipCode",
+    "Country": "country",
+    "Whatsapp": "whatsapp",
+    "Website": "websites",
     "Facebook": "facebook",
   };
 }

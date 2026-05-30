@@ -10,6 +10,8 @@ class ContactController extends GetxController {
   final RxString query = ''.obs;
   final _uuid = const Uuid();
 
+  
+
   @override
   void onInit() {
     super.onInit();

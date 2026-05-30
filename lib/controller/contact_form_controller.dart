@@ -1,4 +1,5 @@
 import 'package:card_swift/common/style/apps_constant.dart';
+import 'package:card_swift/model/business_card_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,19 +17,10 @@ class ContactFormController extends GetxController {
   ) {
     final map = contact.toMap();
 
-    /*
-    /// Clear old data first
-    mobileControllers.clear();
-    phoneControllers.clear();
-    emailControllers.clear();
-
-
-     */
-
     /// 1️⃣ Clear old list data
     _clearLists();
 
-    /*
+
     /// Fill data
     for (var entry in AppsConstant.modelKeyMap.entries) {
       final key = entry.value;
@@ -45,27 +37,12 @@ class ContactFormController extends GetxController {
     }
 
 
-     */
 
     /// 2️⃣ Fill TEXT fields
     _fillTextFields(map, controllers);
 
-    /*
-    /// ensure at least one field
-    if (mobileControllers.isEmpty) {
-      mobileControllers.add(TextEditingController());
-    }
-    if (phoneControllers.isEmpty) {
-      phoneControllers.add(TextEditingController());
-    }
-    if (emailControllers.isEmpty) {
-      emailControllers.add(TextEditingController());
-    }
-
-     */
-
     /// 3️⃣ Fill LIST fields
-    _fillListFields(map);
+    // _fillListFields(map);
 
     /// 4️⃣ Ensure at least one input exists
     _ensureAtLeastOne();
@@ -73,9 +50,10 @@ class ContactFormController extends GetxController {
     update(); // 🔥 IMPORTANT
   }
 
+  /*
   // ================= LIST =================
   void _fillListFields(Map<String, dynamic> map) {
-    for (var entry in AppsConstant.modelKeyMap.entries) {
+    for (var entry in AppsConstant.reviewModel.entries) {
       final key = entry.value;
       final value = map[key];
 
@@ -90,6 +68,8 @@ class ContactFormController extends GetxController {
     }
   }
 
+
+   */
   void _ensureAtLeastOne() {
     if (mobileControllers.isEmpty) addMobile();
     if (phoneControllers.isEmpty) addPhone();

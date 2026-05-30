@@ -5,12 +5,13 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../common/style/app_assets.dart';
 import '../../../controller/upload_controller.dart';
+import '../../../model/business_card_model.dart';
 import '../../../model/contact_model.dart';
 
 class ImageSelectWidget extends StatelessWidget {
   const ImageSelectWidget({super.key, required this.contactModel});
 
-  final ContactModel contactModel;
+  final BusinessCardModel contactModel;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class ImageSelectWidget extends StatelessWidget {
         children: [
           Obx(
             () {
+              // 1. Jodi notun kono chobi select kora hoy (File)
               if (uploadController.selectedPhoto.value != null) {
                 return CircleAvatar(
                   radius: 37.r, // Slightly larger than the inner one

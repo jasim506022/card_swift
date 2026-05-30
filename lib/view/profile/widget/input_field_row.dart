@@ -44,5 +44,3 @@ class InputFieldRow extends StatelessWidget {
   }
 }
 
-// FIX: Wrap CustomTextFormField in Expanded to prevent the "hasSize" error
-// Why use const
