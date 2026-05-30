@@ -143,7 +143,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   /// Handle SignUp
   void _handleSignUp() {
-
     if (!_formKey.currentState!.validate()) return;
     _authController.signUp(
       email: _emailController.text.trim(),
@@ -155,8 +154,8 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _handleIfLoading() {
     if (_authController.isLoading.value) {
       AppFunction.flutterToast(msg: AppString.processingCannotBack);
-      return true; // handled (blocked)
+      return true;
     }
-    return false; // not loading
+    return false;
   }
 }

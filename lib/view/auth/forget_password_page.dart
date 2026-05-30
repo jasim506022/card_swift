@@ -1,10 +1,10 @@
-import 'package:card_swift/common/style/app_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../common/style/app_function.dart';
 import '../../common/style/app_string.dart';
+import '../../common/style/app_validator.dart';
 import '../../common/widget/app_clickable_text.dart';
 import '../../controller/auth_controller.dart';
 import '../../common/widget/custom_text_form_field.dart';
@@ -97,8 +97,8 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   bool _handleIfLoading() {
     if (_authController.isLoading.value) {
       AppFunction.flutterToast(msg: AppString.processingCannotBack);
-      return true; // handled (blocked)
+      return true;
     }
-    return false; // not loading
+    return false;
   }
 }

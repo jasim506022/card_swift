@@ -1,23 +1,22 @@
+import 'package:card_swift/model/profile_model.dart';
+import 'package:card_swift/view/edit_profile/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../add_contact/add_contact.dart';
 import '../../../common/style/app_colors.dart';
 import '../../../common/style/app_string.dart';
 import '../../../common/style/app_text_style.dart';
 import '../../../common/style/apps_constant.dart';
-import '../../../model/contact_model.dart';
 
 class HeadingWidget extends StatelessWidget {
-  const HeadingWidget({super.key, required this.contactModel});
+  const HeadingWidget({super.key, required this.profileModel});
 
-  final ContactModel contactModel;
+  final ProfileModel profileModel;
 
   void _goToEdit(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) =>
-            AddContact(contactModel: contactModel, isProfileUpdate: true),
+        builder: (_) => EditProfilePage(profileModel: profileModel),
       ),
     );
   }
@@ -39,20 +38,21 @@ class HeadingWidget extends StatelessWidget {
                 _editableTextRow(
                   context: context,
                   title:
-                      "${contactModel.firstName}${contactModel.lastName ?? ""}",
+                      "${profileModel.firstName}${profileModel.lastName ?? ""}",
                 ),
                 Column(
                   children: [
                     _editableTextRow(
                       context: context,
-                      title: contactModel.jobTitle ?? AppString.appDesignation,
+                      title: profileModel.jobTitle ?? AppString.appDesignation,
                       textStyle: AppTextStyle.bodyTitle.copyWith(
                         color: AppColors.yellow,
+                        fontSize: 15.sp,
                       ),
                     ),
                     _editableTextRow(
                       context: context,
-                      title: contactModel.jobTitle ?? AppString.companyName,
+                      title: profileModel.companyName ?? AppString.companyName,
                       textStyle: AppTextStyle.mediumNormal,
                     ),
                   ],
@@ -91,7 +91,7 @@ class HeadingWidget extends StatelessWidget {
       width: 100.h,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(contactModel.image ?? AppsConstant.image),
+          image: NetworkImage(profileModel.image ?? AppsConstant.image),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(15.r),

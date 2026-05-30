@@ -16,7 +16,7 @@ class AppPage {
     GetPage(name: RouteName.signPage, page: () => SignInPage()),
     GetPage(name: RouteName.signUpPage, page: () => SignUpPage()),
     GetPage(name: RouteName.passwordPage, page: () => ForgetPasswordPage()),
-    GetPage(name: RouteName.homePage, page: () => MainPage()),
+    GetPage(name: RouteName.mainPage, page: () => MainPage()),
     GetPage(name: RouteName.scanPage, page: () => ScanPage()),
     // GetPage(name: RouteName.homePage, page: () => HomeViewPage()),
   ];

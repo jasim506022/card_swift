@@ -1,6 +1,7 @@
 import 'package:card_swift/common/style/app_string.dart';
 import 'package:card_swift/common/style/apps_constant.dart';
 import 'package:card_swift/model/contact_model.dart';
+import 'package:card_swift/model/profile_model.dart';
 import 'package:card_swift/service/base_firebase_upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,7 +9,7 @@ class FirebaseUpload implements BaseFirebaseUpload {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<void> updateUserProfile({required ContactModel contact}) async {
+  Future<void> updateUserProfile({required ProfileModel contact}) async {
     String id = AppsConstant.sharedPreferences!.getString(
       AppString.uidSharedPreference,
     )!;

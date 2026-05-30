@@ -2,12 +2,12 @@ import 'package:card_swift/model/contact_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../common/style/app_function.dart';
-import '../model/user_model.dart';
+import '../model/profile_model.dart';
 import '../service/firebase_auth_service.dart';
 
 /// Repository layer for authentication.
 /// Provides a clean abstraction over [FirebaseAuthService].
-/// Handles Email/Password, Google Sign-In, profile saving, password reset, and sign-out.
+/// Handles Email/Password, Google Sign-In, home saving, password reset, and sign-out.
 class AuthRepository {
   final FirebaseAuthService _service;
 
@@ -29,11 +29,11 @@ class AuthRepository {
     }
   }
 
-  /// Save user profile to Firestore
+  /// Save user home to Firestore
   /// [user] - User data
   /// [uid] - Firebase user ID
   Future<void> saveProfile({
-    required ContactModel contactModel,
+    required ProfileModel contactModel,
     required String uid,
   }) async {
     try {
@@ -84,7 +84,7 @@ class AuthRepository {
     return _service.signOut();
   }
 
-  /// Checks if a user profile exists in Firestore.
+  /// Checks if a user home exists in Firestore.
   Future<bool> isUserProfileExists() async {
     try {
       return await _service.userExists();

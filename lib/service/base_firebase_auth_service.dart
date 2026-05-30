@@ -1,6 +1,6 @@
 import 'package:card_swift/model/contact_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../model/user_model.dart';
+import '../model/profile_model.dart';
 
 abstract class BaseFirebaseAuthService {
   /// Returns the currently signed-in Firebase [User], or null if none
@@ -14,10 +14,10 @@ abstract class BaseFirebaseAuthService {
   /// Returns the Firebase [User] on success
   Future<User?> signUp({required String email, required String password});
 
-  /// Save new user profile to Firestore
+  /// Save new user home to Firestore
   /// [userId] is the Firebase UID of the user
   Future<void> saveUserProfile({
-    required ContactModel contactModel,
+    required ProfileModel contactModel,
     required String userId,
   });
 

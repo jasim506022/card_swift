@@ -13,9 +13,7 @@ class ProfileActionsGroup extends StatelessWidget {
       children: [
         Expanded(
           child: AppButton(
-            onTap: () {
-              // QR Code Logic
-            },
+            onTap: () {},
             title: AppString.myQRCode,
             bgColor: Colors.white,
             textColor: Colors.blue,
@@ -24,9 +22,7 @@ class ProfileActionsGroup extends StatelessWidget {
         SizedBox(width: 15.w),
         Expanded(
           child: AppButton(
-            onTap: () {
-              // Share Logic
-            },
+            onTap: () {},
             title: AppString.share,
             bgColor: Colors.blue,
             textColor: Colors.white,

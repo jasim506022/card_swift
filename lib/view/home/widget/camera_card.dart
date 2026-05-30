@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,9 +6,7 @@ import '../../../common/style/app_string.dart';
 import '../../../common/style/app_text_style.dart';
 
 class CameraCard extends StatelessWidget {
-  const CameraCard({
-    super.key,
-  });
+  const CameraCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,4 +38,3 @@ class CameraCard extends StatelessWidget {
     );
   }
 }
-

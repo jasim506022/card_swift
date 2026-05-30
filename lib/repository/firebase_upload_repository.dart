@@ -1,3 +1,4 @@
+import 'package:card_swift/model/profile_model.dart';
 import 'package:card_swift/service/firebase_upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,7 +7,7 @@ import '../model/contact_model.dart';
 class FirebaseUploadRepository {
   FirebaseUpload firebaseUpload = FirebaseUpload();
 
-  Future<void> updateUserProfile({required ContactModel contact}) async {
+  Future<void> updateUserProfile({required ProfileModel contact}) async {
     await firebaseUpload.updateUserProfile(contact: contact);
   }
 

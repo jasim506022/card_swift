@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:card_swift/model/profile_model.dart';
 import 'package:card_swift/route/route_name.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -48,17 +49,16 @@ class UploadController extends GetxController {
   final RxBool isSaving = false.obs;
 
   /// 💾 Save Contact
-  Future<void> saveContact(
+  Future<void> saveProfile(
     Map<String, TextEditingController> controllers,
     ContactFormController formController,
     String images,
-    bool isPorifleUpdate,
   ) async {
     isSaving.value = true;
 
     Get.dialog(
       PopScope(
-        canPop: false, // ডায়ালগ চলাকালীন ফিজিক্যাল ব্যাক বাটন লক থাকবে
+        canPop: false,
         child: AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -100,25 +100,100 @@ class UploadController extends GetxController {
 
       print("object $image");
 
-      if (isPorifleUpdate) {
-        final contact = _buildContactModel(
-          controllers,
-          mobiles,
-          phones,
-          emails,
-          image,
-        );
-        await firebaseUploadRepository.updateUserProfile(contact: contact);
-      } else {
-        final contact = _buildForCard(
-          controllers,
-          mobiles,
-          phones,
-          emails,
-          image,
-        );
-        await firebaseUploadRepository.postCard(contact: contact);
-      }
+      final contact = _buildContactModel(
+        controllers,
+        mobiles,
+        phones,
+        emails,
+        image,
+      );
+      await firebaseUploadRepository.updateUserProfile(contact: contact);
+
+      Get.back(); // লোডিং ডায়ালগ রিমুভ
+      AppFunction.flutterToast(msg: "Successfully");
+      Get.offAndToNamed(RouteName.mainPage);
+    } catch (e) {
+      Get.back(); // এরর আসলে ডায়ালগ রিমুভ
+      AppFunction.flutterToast(msg: "Failed to save data: $e");
+      print("Firebase Upload Error: $e");
+    } finally {
+      // কাজ শেষ বা এরর যাই হোক, সেভিং স্ট্যাটাস ফলস করে লক খুলে দেওয়া হবে
+      isSaving.value = false;
+    }
+  }
+
+  /// 💾 Save Contact
+  Future<void> saveContact(
+    Map<String, TextEditingController> controllers,
+    ContactFormController formController,
+    String images,
+  ) async {
+    isSaving.value = true;
+
+    Get.dialog(
+      PopScope(
+        canPop: false,
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: const Row(
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  "Saving data, please wait...",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+
+    try {
+      final mobiles = formController.mobileControllers
+          .map((e) => e.text.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+
+      final phones = formController.phoneControllers
+          .map((e) => e.text.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+
+      final emails = formController.emailControllers
+          .map((e) => e.text.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+
+      var image = await uploadImage() ?? images;
+
+      print("object $image");
+
+      // if (isPorifleUpdate) {
+      //   final contact = _buildContactModel(
+      //     controllers,
+      //     mobiles,
+      //     phones,
+      //     emails,
+      //     image,
+      //   );
+      //   await firebaseUploadRepository.updateUserProfile(contact: contact);
+      // } else {
+
+      final contact = _buildForCard(
+        controllers,
+        mobiles,
+        phones,
+        emails,
+        image,
+      );
+      await firebaseUploadRepository.postCard(contact: contact);
+      // }
 
       Get.back(); // লোডিং ডায়ালগ রিমুভ
       AppFunction.flutterToast(msg: "Successfully");
@@ -133,14 +208,14 @@ class UploadController extends GetxController {
     }
   }
 
-  ContactModel _buildContactModel(
+  ProfileModel _buildContactModel(
     Map<String, TextEditingController> controllers,
     List<String> mobiles,
     List<String> phones,
     List<String> emails,
     String image,
   ) {
-    return ContactModel(
+    return ProfileModel(
       firstName: controllers[AppString.hintFirstName]!.text,
       lastName: controllers[AppString.hintLastName]!.text,
       jobTitle: controllers[AppString.hintJobTitle]!.text,

@@ -1,4 +1,5 @@
 import 'package:card_swift/model/contact_model.dart';
+import 'package:card_swift/model/profile_model.dart';
 import 'package:card_swift/repository/firebase_upload_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +33,7 @@ class AuthController extends GetxController {
     : _repository = authRepository;
 
   /// ================= SIGN UP =================
-  /// Sign up using email and password, then save user profile
+  /// Sign up using email and password, then save user home
   Future<void> signUp({
     required String email,
     required String password,
@@ -161,13 +162,13 @@ class AuthController extends GetxController {
 
   /// ================= HELPERS =================
 
-  ContactModel _createUserModel({
+  ProfileModel _createUserModel({
     String? name,
     String? email,
     required User user,
     String? photoUrl,
   }) {
-    return ContactModel(
+    return ProfileModel(
       firstName: name ?? user.displayName,
       email: [email ?? user.email ?? ""],
       uid: user.uid,
@@ -189,9 +190,10 @@ class AuthController extends GetxController {
       );
     }
     AppFunction.flutterToast(msg: message);
-    Get.offNamed(routeName ?? RouteName.homePage);
+    Get.offNamed(routeName ?? RouteName.mainPage);
   }
 
+  /// Get Profile Data
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserProfile() async {
     return firebaseUploadRepository.getUserProfile();
   }

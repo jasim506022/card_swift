@@ -1,13 +1,14 @@
 import 'package:card_swift/model/contact_model.dart';
+import 'package:card_swift/model/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'input_field_row.dart';
 
 class ContactInput extends StatelessWidget {
-  const ContactInput({super.key, required this.contactModel});
+  const ContactInput({super.key, required this.profileModel});
 
-  final ContactModel contactModel;
+  final ProfileModel profileModel;
 
   Widget _buildListSection({
     required List<String>? items,
@@ -34,14 +35,14 @@ class ContactInput extends StatelessWidget {
       children: [
         /// 📧 Email
         _buildListSection(
-          items: contactModel.email,
+          items: profileModel.email,
           icon: Icons.email_outlined,
           emptyText: "No email available",
         ),
 
         /// 📱 Mobile
         _buildListSection(
-          items: contactModel.mobileNumbers,
+          items: profileModel.mobileNumbers,
           icon: Icons.phone,
           emptyText: "No mobile number available",
         ),

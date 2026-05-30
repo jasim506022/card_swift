@@ -161,4 +161,8 @@ class AppString {
 
   // Button
   static const String edit = "Edit";
+  static const String home = "Home";
+  static const String holder = "Holder";
+  static const String notes = "Notes";
+  static const String chat = "Chat";
 }

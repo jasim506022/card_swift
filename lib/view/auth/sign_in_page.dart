@@ -116,14 +116,12 @@ class _SignInPageState extends State<SignInPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // Facebook
         SocialButton(
           onTap: _authController.signInGoogle,
           icon: AppAssets.googleIcon,
         ),
-        // Google
+
         SocialButton(onTap: () {}, icon: AppAssets.appleIcon),
-        // Apple
       ],
     );
   }
@@ -162,7 +160,7 @@ class _SignInPageState extends State<SignInPage> {
             controller: _passwordController,
             obscureText: true,
             hasPasswordToggle: true,
-            // validator: AppValidator.validatePassword,
+            validator: AppValidator.validatePassword,
           ),
         ],
       ),
@@ -181,8 +179,8 @@ class _SignInPageState extends State<SignInPage> {
   bool _handleIfLoading() {
     if (_authController.isLoading.value) {
       AppFunction.flutterToast(msg: AppString.processingCannotBack);
-      return true; // handled (blocked)
+      return true;
     }
-    return false; // not loading
+    return false;
   }
 }

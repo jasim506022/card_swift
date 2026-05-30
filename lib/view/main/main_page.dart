@@ -1,11 +1,13 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:card_swift/route/route_name.dart';
-import 'package:card_swift/add_contract/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../profile/profile_view.dart';
+import '../../common/style/app_colors.dart';
+import '../../controller/auth_controller.dart';
+import '../../model/bottom_nav_item.dart';
+import '../../route/route_name.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -15,76 +17,79 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final iconList = <IconData>[
-    Icons.home,
-    Icons.add_card_rounded,
-    Icons.note_alt,
-    Icons.chat,
-  ];
+  late final AuthController _authController;
 
-  final List<Widget> _screens = [
-    ProfilePage(),
-    HomeViewPage(),
-    Center(child: Text("Profile Screen")),
-    Center(child: Text("Profile Screen")),
-  ];
+  int _currentIndex = 0;
 
-  var _bottomNavIndex = 0; //default index of a first screen
+  @override
+  void initState() {
+    super.initState();
+    _authController = Get.find<AuthController>();
+  }
+
+  void _onTabChanged(int index) {
+    setState(() => _currentIndex = index);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_bottomNavIndex],
+    final currentItem = navItems[_currentIndex];
 
-      floatingActionButton: FloatingActionButton(
-        elevation: 4,
-        // Adds a shadow so it stands out
-        backgroundColor: Colors.white,
-        shape: const CircleBorder(),
-        child: Icon(Icons.camera_alt, size: 40.h, color: Colors.grey),
-        onPressed: () => Get.toNamed(RouteName.scanPage),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) =>
+          _authController.confirmExitApp(),
+      child: Scaffold(
+        body: currentItem.screen,
+
+        floatingActionButton: FloatingActionButton(
+          elevation: 4,
+          backgroundColor: AppColors.white,
+          shape: const CircleBorder(),
+          onPressed: () => Get.toNamed(RouteName.scanPage),
+          child: Icon(Icons.camera_alt, size: 40.h, color: AppColors.grey),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: _buildBottomNav(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
 
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: Colors.grey.shade300, // Color of the line
-              width: 1.0, // Thickness of the line
-            ),
-          ),
+  Widget _buildBottomNav() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: Colors.grey.shade300, width: 1.0),
         ),
-        child: AnimatedBottomNavigationBar.builder(
-          itemCount: iconList.length,
-          tabBuilder: (int index, bool isActive) {
-            final color = isActive ? Colors.blue : Colors.grey;
-            final labels = ["Home", "Holder", "Notes", "Chat"];
+      ),
+      child: AnimatedBottomNavigationBar.builder(
+        itemCount: navItems.length,
+        activeIndex: _currentIndex,
+        gapLocation: GapLocation.center,
+        notchSmoothness: NotchSmoothness.defaultEdge,
+        height: 70.h,
+        onTap: _onTabChanged,
 
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(iconList[index], size: 24.h, color: color),
-                SizedBox(height: 2.h), // Small gap between icon and text
-                Text(
-                  labels[index],
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 10.sp,
-                    fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                  ),
+        tabBuilder: (index, isActive) {
+          final item = navItems[index];
+          final color = isActive ? Colors.blue : Colors.grey;
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(item.icon, size: 24.h, color: color),
+              SizedBox(height: 2.h),
+              Text(
+                item.label,
+                style: GoogleFonts.poppins(
+                  color: color,
+                  fontSize: 12.sp,
+                  fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
                 ),
-              ],
-            );
-          },
-          activeIndex: _bottomNavIndex,
-          gapLocation: GapLocation.center,
-          notchSmoothness: NotchSmoothness.defaultEdge,
-          onTap: (index) => setState(() => _bottomNavIndex = index),
-          // Optional: Adjust the height to accommodate the text
-          height: 70.h,
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:card_swift/common/style/apps_constant.dart';
-import 'package:card_swift/model/business_card_model.dart';
+import 'package:card_swift/model/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,6 +20,42 @@ class ContactFormController extends GetxController {
     /// 1️⃣ Clear old list data
     _clearLists();
 
+    /// Fill data
+    for (var entry in AppsConstant.modelKeyMap.entries) {
+      final key = entry.value;
+      final value = map[key];
+
+      if (value == null) continue;
+
+      if (value is List) {
+        for (var item in value) {
+          if (item.toString().trim().isEmpty) continue;
+          _add(entry.key, item.toString());
+        }
+      }
+    }
+
+    /// 2️⃣ Fill TEXT fields
+    _fillTextFields(map, controllers);
+
+    /// 3️⃣ Fill LIST fields
+    // _fillListFields(map);
+
+    /// 4️⃣ Ensure at least one input exists
+    _ensureAtLeastOne();
+
+    update(); // 🔥 IMPORTANT
+  }
+
+  /// 🔹 Init ALL data (text + list)
+  void initDataProfile(
+    ProfileModel profile,
+    Map<String, TextEditingController> controllers,
+  ) {
+    final map = profile.toMap();
+
+    /// 1️⃣ Clear old list data
+    _clearLists();
 
     /// Fill data
     for (var entry in AppsConstant.modelKeyMap.entries) {
@@ -36,8 +72,6 @@ class ContactFormController extends GetxController {
       }
     }
 
-
-
     /// 2️⃣ Fill TEXT fields
     _fillTextFields(map, controllers);
 
@@ -50,26 +84,6 @@ class ContactFormController extends GetxController {
     update(); // 🔥 IMPORTANT
   }
 
-  /*
-  // ================= LIST =================
-  void _fillListFields(Map<String, dynamic> map) {
-    for (var entry in AppsConstant.reviewModel.entries) {
-      final key = entry.value;
-      final value = map[key];
-
-      if (value is List) {
-        for (var item in value) {
-          final text = item.toString().trim();
-          if (text.isNotEmpty) {
-            _add(entry.key, text);
-          }
-        }
-      }
-    }
-  }
-
-
-   */
   void _ensureAtLeastOne() {
     if (mobileControllers.isEmpty) addMobile();
     if (phoneControllers.isEmpty) addPhone();

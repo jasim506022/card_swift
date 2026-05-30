@@ -1,3 +1,4 @@
+import 'package:card_swift/view/edit_profile/widget/image_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -50,7 +51,6 @@ class _AddContactState extends State<AddContact> {
         controllers,
         formController,
         widget.contactModel.image ?? "",
-        widget.isProfileUpdate,
       );
     }
   }

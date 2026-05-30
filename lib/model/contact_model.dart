@@ -19,7 +19,6 @@ class ContactModel {
   final String? zipCode;
   final String? country;
   final String? whatsapp;
-
   final String? facebook;
   final Timestamp? createdAt;
 

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:get/get.dart';
 
-import '../../../model/business_card_model.dart';
-import '../../../service/card_parse_service.dart';
+import '../model/business_card_model.dart';
+import '../service/card_parse_service.dart';
 
 class OcrController extends GetxController {
   final BusinessCardService _service = BusinessCardService();
@@ -34,3 +34,6 @@ class OcrController extends GetxController {
     super.onClose();
   }
 }
+
+
+

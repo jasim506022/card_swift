@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../model/business_card_model.dart';
-import '../../add_contract/example/controllers/ocr_controller.dart';
+import '../../controller/ocr_controller.dart';
 import '../../model/contact_model.dart';
 
 /*

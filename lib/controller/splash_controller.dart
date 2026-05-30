@@ -38,7 +38,7 @@ class SplashController extends GetxController {
 
   String _resolveRoute(User? user) {
     if (user != null) {
-      return RouteName.homePage;
+      return RouteName.mainPage;
     }
 
     return AppsConstant.isViewed ? RouteName.signPage : RouteName.onboarding;

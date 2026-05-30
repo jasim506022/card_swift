@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../model/contact_model.dart';
-import '../model/user_model.dart';
+import '../model/profile_model.dart';
 import 'base_firebase_auth_service.dart';
 
 /// Firebase Authentication Service implementation
-/// Handles Email/Password, Google Sign-In, and Firestore user profile
+/// Handles Email/Password, Google Sign-In, and Firestore user home
 class FirebaseAuthService extends BaseFirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -31,11 +31,11 @@ class FirebaseAuthService extends BaseFirebaseAuthService {
     return credential.user;
   }
 
-  /// Save user profile data to Firestore under `users/{userId}`
+  /// Save user home data to Firestore under `users/{userId}`
   @override
   Future<void> saveUserProfile({
     required String userId,
-    required ContactModel contactModel,
+    required ProfileModel contactModel,
   }) async {
     await _firestore.collection('users').doc(userId).set(contactModel.toMap());
   }
