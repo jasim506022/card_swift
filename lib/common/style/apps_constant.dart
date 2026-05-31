@@ -10,8 +10,11 @@ class AppsConstant {
       "AIzaSyCdaT-NClGJn8T1As9tDKprfJgGbw7ai0E";
 
   static const String cloudName = "dhugcawup";
-  static const String defaultCardBackground =
+
+  static const String defaultImage =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdqpdEN5cM_sGSv0B0W5vFfCroA3d-x-mPZg&s";
+
+
   static const String uploadTest = "upload-test";
   static const String uploadPreset = "upload_preset";
   static const String secureUrl = "secure_url";

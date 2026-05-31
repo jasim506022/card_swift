@@ -8,4 +8,6 @@ class RouteName {
   static const String homePage = '/homePage';
   static const String scanPage = '/scanPage';
   static const String editProfile = '/editProfile';
+  static const String viewCard = '/viewCard';
+  static const String addCard = '/addCard';
 }

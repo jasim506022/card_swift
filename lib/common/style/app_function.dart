@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,6 @@ import '../widget/app_exception.dart';
 import 'app_colors.dart';
 
 class AppFunction {
-
   /// Provides vertical spacing with adaptive height scaling.
   static SizedBox verticalSpacing(double height) => SizedBox(height: height.h);
 
@@ -27,6 +27,55 @@ class AppFunction {
       textColor: AppColors.white,
       fontSize: 16.0.sp,
     );
+  }
+
+  static String formatTimestamp(Timestamp? timestamp) {
+    if (timestamp == null) return "";
+
+    DateTime date = timestamp.toDate();
+
+    List<String> months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    String monthStr = months[date.month - 1];
+
+    String suffix = "th";
+    int day = date.day;
+    if (day >= 11 && day <= 13) {
+      suffix = "th";
+    } else {
+      switch (day % 10) {
+        case 1:
+          suffix = "st";
+          break;
+        case 2:
+          suffix = "nd";
+          break;
+        case 3:
+          suffix = "rd";
+          break;
+      }
+    }
+
+    int hour = date.hour % 12;
+    if (hour == 0) hour = 12; // ১২টা বাজলে ০ এর জায়গায় ১২ দেখাবে
+    String minuteStr = date.minute.toString().padLeft(2, '0');
+    String period = date.hour >= 12 ? "Pm" : "Am";
+
+    String yearStr = date.year.toString().substring(2);
+
+    return "$day$suffix $monthStr $yearStr, $hour:$minuteStr$period";
   }
 
   // ======================

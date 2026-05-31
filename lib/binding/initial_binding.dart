@@ -4,10 +4,11 @@ import 'package:card_swift/repository/cloudinary_uploader_repository.dart';
 import 'package:get/get.dart';
 
 import '../controller/auth_controller.dart';
+import '../controller/contact_form_controller.dart';
+import '../controller/ocr_controller.dart';
 import '../controller/splash_controller.dart';
 import '../repository/auth_repository.dart';
 import '../repository/splash_repository.dart';
-import '../service/base_firebase_auth_service.dart';
 import '../service/firebase_auth_service.dart';
 
 class InitialBinding extends Bindings {
@@ -30,6 +31,12 @@ class InitialBinding extends Bindings {
       () => UploadController(),
     );
 
+    Get.lazyPut<OcrController>(
+          () => OcrController(),
+    );
+
+
+
     Get.lazyPut<OnboardingController>(() => OnboardingController());
 
     Get.lazyPut<AuthRepository>(() => AuthRepository(), fenix: true);
@@ -40,17 +47,4 @@ class InitialBinding extends Bindings {
   }
 }
 
-/*
 
-// Why use this why doesn't use normal why
-
-
-Get.lazyPut<BaseFirebaseAuthService>(
-  () => FirebaseAuthService(),
-);
-
-Get.lazyPut<SplashRepository>(
-  () => SplashRepository(authService: Get.find()),
-);
-
- */

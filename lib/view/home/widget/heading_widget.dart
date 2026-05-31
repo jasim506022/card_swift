@@ -29,6 +29,7 @@ class HeadingWidget extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(color: AppColors.authHeadBackground),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Column(
@@ -60,7 +61,8 @@ class HeadingWidget extends StatelessWidget {
               ],
             ),
           ),
-          buildImage(context),
+          SizedBox(width: 20.w),
+          Flexible(flex: 0, child: buildImage(context)),
         ],
       ),
     );
@@ -73,11 +75,13 @@ class HeadingWidget extends StatelessWidget {
   }) {
     return Row(
       children: [
-        Text(
-          title,
-          style: textStyle ?? AppTextStyle.subSmallTitle,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+        Expanded(
+          child: Text(
+            title,
+            style: textStyle ?? AppTextStyle.subSmallTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         SizedBox(width: 8.w),
         InkWell(onTap: () => _goToEdit(context), child: Icon(Icons.edit)),

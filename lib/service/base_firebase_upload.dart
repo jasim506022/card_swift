@@ -9,6 +9,9 @@ abstract class BaseFirebaseUpload {
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserProfile();
 
   Future<void> postCard({required ContactModel contact});
+  Future<void> updateCard({required ContactModel contact});
+
+  Future<void> deleteCard({required String uid});
 
   Stream<List<Map<String, dynamic>>> getAllCardsStream();
 }

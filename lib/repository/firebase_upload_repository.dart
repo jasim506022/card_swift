@@ -19,6 +19,14 @@ class FirebaseUploadRepository {
     firebaseUpload.postCard(contact: contact);
   }
 
+  Future<void> updateCard({required ContactModel contact}) async {
+    firebaseUpload.updateCard(contact: contact);
+  }
+
+  Future<void> deleteCard({required String uid}) async {
+    firebaseUpload.deleteCard(uid: uid);
+  }
+
   Stream<List<Map<String, dynamic>>> getAllCardsStream() {
     return firebaseUpload.getAllCardsStream();
   }

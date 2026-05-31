@@ -132,6 +132,9 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     try {
       await _repository.signOut();
+      await AppsConstant.sharedPreferences?.remove(
+        AppString.uidSharedPreference,
+      );
       Get.offAllNamed(RouteName.signPage);
     } catch (e) {
       _handleError(e);

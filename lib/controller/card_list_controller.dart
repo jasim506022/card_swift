@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../common/style/app_function.dart';
 import '../model/contact_model.dart';
 import '../repository/firebase_upload_repository.dart';
 
@@ -7,27 +8,22 @@ class CardListController extends GetxController {
   final FirebaseUploadRepository firebaseUploadRepository =
       FirebaseUploadRepository();
 
-
   final RxList<ContactModel> allCards = <ContactModel>[].obs;
   final RxBool isListLoading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-    listenToAllCards(); // কন্ট্রোলার মেমোরিতে আসলেই ডাটা লোড শুরু হবে
+    listenToAllCards();
   }
 
-  // রিয়েল-টাইম ডাটা লিসেন করার মেথড
   void listenToAllCards() {
     isListLoading.value = true;
 
     firebaseUploadRepository.getAllCardsStream().listen(
       (snapshotData) {
-        // ম্যাপ লিস্টকে অবজেক্ট (Model) লিস্টে কনভার্ট করা
         allCards.value = snapshotData.map((map) {
-          return ContactModel.fromMap(
-            map,
-          ); // আপনার মডেলের fromMap/fromJson মেথড
+          return ContactModel.fromMap(map);
         }).toList();
 
         isListLoading.value = false;
@@ -37,5 +33,18 @@ class CardListController extends GetxController {
         Get.snackbar("Error", "Failed to fetch cards: $error");
       },
     );
+  }
+
+  Future<void> deleteCard({required String uid}) async {
+    try {
+      // Use await so the code waits for Firestore to finish deleting
+      await firebaseUploadRepository.deleteCard(uid: uid);
+
+      // Show success toast feedback to the user
+      AppFunction.flutterToast(msg: "Card deleted successfully");
+    } catch (error) {
+      print("Delete Error: $error");
+      Get.snackbar("Error", "Failed to delete card: $error");
+    }
   }
 }

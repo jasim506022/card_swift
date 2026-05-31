@@ -165,4 +165,6 @@ class AppString {
   static const String holder = "Holder";
   static const String notes = "Notes";
   static const String chat = "Chat";
+  static const String searchCards = "Search Cards";
+  static const String updateProfileTitle = "Update Profile";
 }

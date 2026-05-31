@@ -1,9 +1,9 @@
+import 'dart:io';
+
 import 'package:card_swift/model/contact_model.dart';
-import 'package:card_swift/model/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../common/style/app_assets.dart';
 import '../../../controller/upload_controller.dart';
@@ -16,66 +16,35 @@ class ImageSelectWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UploadController uploadController = Get.find<UploadController>();
-    return InkWell(
-      onTap: () {
-        uploadController.pickImage(ImageSource.gallery);
-      },
-      child: Row(
-        children: [
-          Obx(
-            () {
-              if (uploadController.selectedPhoto.value != null) {
-                return CircleAvatar(
-                  radius: 37.r, // Slightly larger than the inner one
-                  backgroundColor: Colors.blue, // This acts as the border color
-                  child: CircleAvatar(
-                    radius: 35.r,
-                    backgroundImage: FileImage(
-                      uploadController.selectedPhoto.value!,
-                    ),
-                  ),
-                );
-              }
-              // 2. Jodi model a purono image URL thake
-              else if (contactModel.image != null) {
-                return CircleAvatar(
-                  radius: 37.r, // Slightly larger than the inner one
-                  backgroundColor: Colors.blue, // This acts as the border color
-                  child: CircleAvatar(
-                    radius: 35.r,
-                    backgroundImage: NetworkImage(contactModel.image!),
-                  ),
-                );
-              }
-              // 3. Jodi uporer konotai na thake (Default Asset)
-              else {
-                return CircleAvatar(
-                  radius: 37.r, // Slightly larger than the inner one
-                  backgroundColor: Colors.blue, // This acts as the border color
-                  child: CircleAvatar(
-                    radius: 35.r,
-                    backgroundImage: AssetImage(AppAssets.appIcon),
-                  ),
-                );
-              }
-            },
 
-            /*
-            () => CircleAvatar(
-              radius: 35.r,
-              backgroundImage:
-                  uploadController.selectPhoto.value != null
-                  ? FileImage(uploadController.selectPhoto.value!)
-                  : AssetImage(AppAssets.appIcon) as ImageProvider,
-            ),
+    return Obx(() {
+      final file = uploadController.selectedPhoto.value;
+      final networkImage = contactModel.image;
 
-
-             */
+      return Container(
+        width: 1.sw,
+        height: 200.r,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blue, width: 2),
+          borderRadius: BorderRadius.circular(10.r),
+          image: DecorationImage(
+            image: _getImage(file, networkImage),
+            fit: BoxFit.fill,
           ),
-          SizedBox(width: 20.w),
-          Text("ADD PICTURE"),
-        ],
-      ),
-    );
+        ),
+      );
+    });
+  }
+
+  ImageProvider _getImage(File? file, String? networkImage) {
+    if (file != null) {
+      return FileImage(file);
+    }
+
+    if (networkImage != null && networkImage.isNotEmpty) {
+      return NetworkImage(networkImage);
+    }
+
+    return const AssetImage(AppAssets.appIcon);
   }
 }

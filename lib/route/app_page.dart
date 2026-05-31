@@ -1,4 +1,6 @@
+import 'package:card_swift/view/add_contact/add_contact.dart';
 import 'package:card_swift/view/main/main_page.dart';
+import 'package:card_swift/view/view_card_page/view_card_page.dart';
 import 'package:card_swift/view/scan/scan_page.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +20,8 @@ class AppPage {
     GetPage(name: RouteName.passwordPage, page: () => ForgetPasswordPage()),
     GetPage(name: RouteName.mainPage, page: () => MainPage()),
     GetPage(name: RouteName.scanPage, page: () => ScanPage()),
+    GetPage(name: RouteName.viewCard, page: () => ViewCardPage()),
+    GetPage(name: RouteName.addCard, page: () => AddContact()),
     // GetPage(name: RouteName.homePage, page: () => HomeViewPage()),
   ];
 }

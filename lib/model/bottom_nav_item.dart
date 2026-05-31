@@ -1,7 +1,7 @@
 import 'package:card_swift/common/style/app_string.dart';
 import 'package:flutter/material.dart';
 
-import '../add_contract/home.dart';
+import '../view/holder/holder_view.dart';
 import '../common/style/app_text_style.dart';
 import '../view/home/home_view.dart';
 
@@ -26,7 +26,7 @@ final List<BottomNavItem> navItems = [
   BottomNavItem(
     icon: Icons.add_card_rounded,
     label: AppString.holder,
-    screen: const HomeViewPage(),
+    screen: const HolderView(),
   ),
   BottomNavItem(
     icon: Icons.note_alt,

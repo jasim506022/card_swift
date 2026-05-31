@@ -41,6 +41,21 @@ class FirebaseUpload implements BaseFirebaseUpload {
   }
 
   @override
+  Future<void> deleteCard({required String uid}) async {
+    String? userUid = AppsConstant.sharedPreferences!.getString(
+      AppString.uidSharedPreference,
+    );
+    print(userUid);
+    print(uid);
+    await _firestore
+        .collection("users")
+        .doc(userUid)
+        .collection("card")
+        .doc(uid)
+        .delete();
+  }
+
+  @override
   Stream<List<Map<String, dynamic>>> getAllCardsStream() {
     String? uid = AppsConstant.sharedPreferences!.getString(
       AppString.uidSharedPreference,
@@ -54,5 +69,24 @@ class FirebaseUpload implements BaseFirebaseUpload {
         .map((snapshot) {
           return snapshot.docs.map((doc) => doc.data()).toList();
         });
+  }
+
+  @override
+  Future<void> updateCard({required ContactModel contact}) async {
+    print("Bangadesh is");
+    String? uid = AppsConstant.sharedPreferences!.getString(
+      AppString.uidSharedPreference,
+    );
+
+    print("Bangladesh ${contact.uid!}Bangladesh");
+
+    await _firestore
+        .collection("users")
+        .doc(uid)
+        .collection("card")
+        .doc(
+          contact.uid!,
+        ) // <-- Double-check that this ID matches the existing Firestore document ID
+        .update(contact.toMap());
   }
 }
